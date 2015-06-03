@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Andrea Maddalena">
+
+    <title>backend - Admin</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/libs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/libs/angular-toastr/dist/angular-toastr.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="/libs/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Timeline CSS -->
+    <link href="/css/timeline.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/libs/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body ng-controller="shell as vm">
+
+	<!-- login VIEW -->
+	<div class="container" ng-if="!vm.isLogged" ng-view></div>
+
+	<!-- authenticated VIEW -->
+	<div id="wrapper" ng-if="vm.isLogged" ng-include="'app/layout/shell.html'"></div>
+
+
+	<!-- jQuery -->
+	<script src="/libs/jquery/dist/jquery.min.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="/libs/metisMenu/dist/metisMenu.min.js"></script>
+
+	<!-- Custom Theme JavaScript -->
+	<script src="/js/sb-admin-2.js"></script>
+
+	<!-- Angular library -->
+	<script src="/libs/angular/angular.js"></script>
+	<script src="/libs/angular-route/angular-route.js"></script>
+	<script src="/libs/angular-animate/angular-animate.min.js"></script>
+	<script src="/libs/angular-sanitize/angular-sanitize.min.js"></script>
+	<script src="/libs/angular-messages/angular-messages.min.js"></script>
+
+	<script src="/libs/angular-ui-bootstrap-bower/ui-bootstrap.min.js"></script>
+	<script src="/libs/angular-ui-bootstrap-bower/ui-bootstrap-tpls.min.js"></script>
+	<script src="/libs/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
+
+	<!-- app -->
+	<script src="/app/app.js"></script>
+	<script src="/app/config.js"></script>
+	<script src="/app/config.route.js"></script>
+
+	<!-- common -->
+	<script src="/app/layout/shell.js"></script>
+	<script src="/app/layout/sidebar.js"></script>
+
+	<!-- services -->
+	<script src="/app/common/logger.js"></script>
+	<script src="/app/common/modalConfirm.js"></script>
+	<script src="/app/services/factory.js"></script>
+	
+	<!-- directives -->
+	<script src="/app/directives/filemodel.js"></script>
+
+	<script src="/app/auth/auth.factory.js"></script>
+	<script src="/app/auth/auth.controller.js"></script>		
+	
+	<!-- controllers -->
+	<script src="/app/commissione/commissioneCtrl.js"></script>
+	<script src="/app/consiglioD/consiglioDCtrl.js"></script>
+	<script src="/app/consiglioT/consiglioTCtrl.js"></script>
+	<script src="/app/ingegnere/ingegnereCtrl.js"></script>
+	
+	<script src="/app/account/cambioPassword.js"></script>
+	<script src="/app/account/utente.js"></script>
+	<script src="/app/admin/accountCtrl.js"></script>
+	
+	<script src="/app/file/fileCtrl.js"></script>
+	<script src="/app/fattura/fatturaCtrl.js"></script>
+	
+	<!-- parametri -->
+	<script src="/app/param/categoriaCtrl.js"></script>
+	<script src="/app/param/documentoCtrl.js"></script>
+	<script src="/app/param/laureaCtrl.js"></script>
+	<script src="/app/param/ruoloCommissioneCtrl.js"></script>
+	<script src="/app/param/ruoloConsiglioCtrl.js"></script>
+	<script src="/app/param/settoreCtrl.js"></script>
+	<script src="/app/param/tagCtrl.js"></script>
+
+
+</body>
+
+</html>

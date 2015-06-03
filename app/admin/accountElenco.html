@@ -1,0 +1,43 @@
+<div class="panel panel-default">
+		<div class="panel-heading">
+				<i class="fa fa-bar-chart-o fa-fw"></i> Elenco
+				<div class="pull-right">
+						<div class="btn-group">
+								<button class="btn btn-default btn-sm" ng-click="vm.new()">Nuovo Utente</button>
+								<button class="btn btn-default btn-sm" ng-click="vm.refresh()">Aggiorna</button>
+						</div>
+				</div>
+		</div>
+		<!-- /.panel-heading -->
+		<div class="panel-body">
+				<div class="row">
+					<div class="table-responsive col-xs-12">
+								<table class="table table-bordered table-hover table-striped">
+										<thead>
+												<tr>
+														<th>Username</th>
+														<th>Name</th>
+														<th>Role</th>
+														<th class="col-md-2">Azioni</th>
+												</tr>
+										</thead>
+										<tbody>
+												<tr ng-repeat="account in vm.elenco">
+													<td>{{ account.username }}</td>
+													<td>{{ account.name }}</td>
+													<td>{{ account.role }}</td>
+													<td class="col-md-2">
+														<button ng-click="vm.select(account)" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></button> 
+														<button ng-click="vm.delete(account)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+													</td>
+												</tr>
+										</tbody>
+								</table>
+					</div>
+						<!-- /.table-responsive -->
+				</div>
+				<!-- /.row -->
+		</div>
+		<!-- /.panel-body -->
+</div>
+<!-- /.panel -->

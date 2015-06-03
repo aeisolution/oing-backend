@@ -1,0 +1,175 @@
+<ng-include src="'/app/common/pageHeader.html'"></ng-include>
+
+
+<div class="row" data-ng-if="vm.status=='error'">
+		<div class="alert alert-danger">
+				<span>ERRORE INSERIMENTO DATI:</span>
+				{{ vm.errorMessage }}
+		</div>
+</div>
+
+
+<div class="row"  data-ng-if="vm.status=='success'">
+		<div class="alert alert-success">
+				<i class="fa fa-check-square-o fa-2x"></i><b>Modifica dati di profilo completata con successo</b>.</p>
+		</div>
+</div>
+
+
+<!-- Row -->
+<div class="row">
+		<!-- Dati Anagrafici-->
+		<div class="col-md-6">
+			<label for="txtNome">Nome</label>
+				<div class="input-group col-sm-12">
+					<input id="txtNome" type="text" class="form-control" data-ng-model="vm.utente.nome" readonly />
+				</div>
+		</div>
+		<div class="col-md-6">
+				<label for="txtCognome">Cognome</label>
+				<div class="input-group col-sm-12">
+					<input id="txtCognome" type="text" class="form-control" data-ng-model="vm.utente.cognome" readonly />
+				</div>
+		</div>
+		<div class="col-md-6">
+				<label for="txtCodiceFiscale">Codice Fiscale</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.codiceFiscale" readonly />
+				</div>
+		</div>
+		<div class="col-md-12">
+				<label for="txtPec">PEC</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.pec" readonly />
+				</div>
+		</div>
+		<div class="separator bottom"></div>
+		<!-- Dati di iscrizione all'Ordine -->
+		<h4 class="col-md-12 separator top">Ordine</h4>
+		<div class="col-md-12">
+				<label for="txtOrdine">Ordine</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.ordine" readonly />
+				</div>
+		</div>
+		<div class="col-md-4">
+				<label for="txtSezione">Sezione</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.sezione" readonly />
+				</div>
+		</div>
+		<div class="col-md-8">
+				<label for="txtNumero">Numero</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.numero" readonly />
+				</div>
+		</div>
+		<div class="separator bottom"></div>
+
+		<!-- Dati di Residenza -->
+		<h4 class="col-md-12 separator top">Residenza</h4>
+		<div class="col-md-12">
+				<label for="txtIndirizzo">Indirizzo</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.resIndirizzo" />
+				</div>
+		</div>
+		<div class="col-md-6">
+				<label for="txtProvincia">Provincia</label>
+				<div class="col-md-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.resProvincia" />
+				</div>
+		</div>
+		<div class="col-md-6">
+				<label for="txtComune">Comune</label>
+				<div class="col-md-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.resComune" />
+				</div>
+		</div>
+		<div class="col-md-6">
+				<label for="txtCap">Cap</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.resCap" />
+				</div>
+		</div>
+		<div class="separator bottom"></div>
+
+		<!-- Domicilio Fiscale -->
+		<h4 class="col-md-12 separator top">Ufficio</h4>
+		<div class="col-md-12">
+				<label for="txtUffIndirizzo">Indirizzo</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.domIndirizzo" />
+				</div>
+		</div>
+		<div class="col-md-6">
+				<label for="txtUffProvincia">Provincia</label>
+				<div class="col-md-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.domProvincia" />
+				</div>
+		</div>
+		<div class="col-md-6">
+				<label for="txtUffComune">Comune</label>
+				<div class="col-md-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.domComune" />
+				</div>
+		</div>
+		<div class="col-md-6">
+				<label for="txtUffCap">Cap</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.domCap" />
+				</div>
+		</div>
+		<div class="separator bottom"></div>
+
+		<!-- Recapiti -->
+		<h4 class="col-md-12 separator top">Recapiti</h4>
+		<div class="col-md-6">
+				<label for="txtTelefono1">Telefonoc 1</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.telefono1" />
+				</div>
+		</div>
+		<div class="col-md-6">
+				<label for="txtTelefono2">Telefono 2</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.telefono2" />
+				</div>
+		</div>
+		<div class="col-md-6">
+				<label for="txtCellulare1">Cellulare 1</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.cellulare1" />
+				</div>
+		</div>
+		<div class="col-md-6">
+				<label for="txtCellulare2">Cellulare 2</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.cellulare2" />
+				</div>
+		</div>
+		<div class="col-md-6">
+				<label for="txtFax">Fax</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.fax" />
+				</div>
+		</div>
+		<div class="col-md-12">
+				<label for="txtEmail">Email</label>
+				<div class="input-group col-sm-12">
+						<input type="text" class="form-control" data-ng-model="vm.utente.email" />
+				</div>
+		</div>
+</div>
+<!-- // Row END -->
+
+<div class="row">
+		<div class="col-md-12">
+				<!-- Form actions -->
+				<div class="form-actions" >
+						<button type="submit" class="btn btn-primary" data-ng-click="vm.save()"><i class="fa fa-fw fa-check-square-o"></i> Salva</button>
+				</div>
+				<!-- // Form actions END -->
+		</div>
+</div>
+

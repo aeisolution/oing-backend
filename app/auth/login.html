@@ -1,0 +1,23 @@
+<div class="row">
+		<div class="col-md-4 col-md-offset-4">
+				<div class="login-panel panel panel-default">
+						<div class="panel-heading">
+								<h3 class="panel-title">Accesso Area Riservata</h3>
+						</div>
+						<div class="panel-body">
+								<form name="loginForm" role="form">
+										<fieldset>
+												<div class="form-group" ng-class="{'has-error': loginForm.username.$dirty && loginForm.username.$invalid }">
+														<input name="username" class="form-control" ng-model="vm.user.username" placeholder="username" autofocus required>
+												</div>
+												<div class="form-group" ng-class="{'has-error': loginForm.password.$dirty && loginForm.password.$invalid }">
+														<input name="password" class="form-control" ng-model="vm.user.password" placeholder="Password" name="password" type="password" value="" required>
+												</div>
+												<!-- Change this to a button or input when using this as a form -->
+												<button ng-disabled="loginForm.$pristine || loginForm.$invalid" ng-click="vm.login()" class="btn btn-lg btn-success btn-block">Login</button>
+										</fieldset>
+								</form>
+						</div>
+				</div>
+		</div>
+</div>

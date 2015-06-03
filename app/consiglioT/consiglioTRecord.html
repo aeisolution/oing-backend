@@ -1,0 +1,120 @@
+<div class="panel panel-default">
+		<div class="panel-heading">
+				<i class="fa fa-bar-chart-o fa-fw"></i> Consiglio <b>{{ vm.record.periodo.inizio }} - {{ vm.record.periodo.fine }}</b>
+				<div class="pull-right">
+						<div class="btn-group">
+							<button class="btn btn-default btn-xs" ng-click="vm.switchView('elenco')">elenco</button>
+						</div>
+				</div>			
+		</div>
+		<!-- /.panel-heading -->
+		<div class="panel-body">
+				<div class="row">
+						<tabset>
+							<tab>
+								<tab-heading>
+									<i class="fa fa-file-o"></i> Scheda
+								</tab-heading>
+								<form name="recordForm" role="form" class="col-xs-12" novalidate>
+									<h5>Periodo del Mandato</h5>
+									<div class="form-group col-sm-6">
+											<label class="control-label">Anno inizio</label>
+											<input name="inizio" ng-model="vm.record.periodo.inizio" class="form-control" type="number" required>
+									</div>
+									<div class="form-group col-sm-6">
+											<label>Anno Fine</label>
+											<input name="fine" ng-model="vm.record.periodo.fine" class="form-control" type="number" required>
+									</div>
+									<hr class="divider clearfix" />
+									<div class="form-group col-sm-6">
+											<label>Data di elezione</label>
+											<div class="input-group">
+												<input type="date" class="form-control" datepicker-popup ng-model="vm.record.elezioneStr" is-open="vm.opened['elezione']" close-text="Close" />
+												<span class="input-group-btn">
+													<button type="button" class="btn btn-default" ng-click="vm.open('elezione',$event)"><i class="glyphicon glyphicon-calendar"></i></button>
+												</span>
+											</div>
+									</div>
+									<div class="form-group col-sm-6">
+											<label>Data di insediamento</label>
+											<div class="input-group">
+												<input type="date" class="form-control" datepicker-popup ng-model="vm.record.insediamentoStr" is-open="vm.opened['insediamento']" close-text="Close" />
+												<span class="input-group-btn">
+													<button type="button" class="btn btn-default" ng-click="vm.open('insediamento',$event)"><i class="glyphicon glyphicon-calendar"></i></button>
+												</span>
+											</div>
+									</div>
+									<hr class="divider clearfix"></hr>
+									<div class="form-group">
+											<label>Note</label>
+											<textarea ng-model="vm.record.note" class="form-control" rows="3"></textarea>
+									</div>
+
+									<button ng-disabled="recordForm.$pristine || recordForm.$invalid" ng-click="vm.save()" type="submit" class="btn btn-success">Salva</button>
+									<button type="reset" class="btn btn-default">Annulla</button>
+								</form>
+
+							</tab>
+							<tab>
+								<tab-heading>
+									<i class="fa fa-users"></i> Consiglieri <span class="badge" ng-if="vm.record.componenti.length>0">{{ vm.record.componenti.length }}</span>
+								</tab-heading>
+									<form class="col-sx-12">
+										<div class="form-group col-md-6">
+											<label>Nominativo</label>
+											<input ng-model="vm.componente.nominativo" class="form-control">
+										</div>
+										<div class="form-group col-md-6">
+											<label>ruolo</label>
+											<select ng-model="vm.componente.ruolo" class="form-control">
+												<option ng-repeat="r in vm.ruoli | orderBy: 'nome'">{{ r.nome }}</option>
+											</select>											
+										</div>	
+										<div class="form-group col-sm-6">
+											<label>Sezione</label>
+											<select ng-model="vm.componente.sezione" class="form-control">
+												<option>A</option>
+												<option>B</option>
+											</select>											
+										</div>
+										<div class="form-group col-sm-6">
+											<label>Numero</label>
+											<input ng-model="vm.componente.numero" class="form-control">
+										</div>
+										<div class="form-group col-xs-12">
+											<button ng-click="vm.componenteAdd()" class="btn btn-default">Aggiungi</button>
+										</div>
+									</form>
+										<div class="table-responsive col-xs-12">
+													<table class="table table-bordered table-hover table-striped">
+															<thead>
+																	<tr>
+																			<th>Nominativo</th>
+																			<th>Albo</th>
+																			<th>Ruolo</th>
+																			<th>Azioni</th>
+																	</tr>
+															</thead>
+															<tbody>
+																	<tr ng-repeat="comp in vm.record.componenti | orderBy: 'nominativo'">
+																		<td>{{ comp.nominativo }}</td>
+																		<td>{{ comp.numero }}/{{ comp.sezione }}</td>
+																		<td>{{ comp.ruolo }}</td>
+																		<td>
+																			<button ng-click="vm.componenteDelete(comp)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+																		</td>
+																	</tr>
+															</tbody>
+													</table>
+
+										</div>
+											<!-- /.table-responsive -->
+							</tab>
+
+						</tabset>
+
+				</div>
+				<!-- /.row -->
+		</div>
+		<!-- /.panel-body -->
+</div>

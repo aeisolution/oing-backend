@@ -1,0 +1,27 @@
+<ul class="nav navbar-top-links navbar-right">
+	<!--
+		<li class="dropdown" ng-include="'app/notifications/messages.html'">
+		</li>
+		<li class="dropdown" ng-include="'app/notifications/tasks.html'">
+		</li>
+		<li class="dropdown" ng-include="'app/notifications/alerts.html'">
+		</li>
+	-->
+	
+		<li class="dropdown">
+				<a class="dropdown-toggle" data-toggle="dropdown" href="" dropdown-toggle>
+						<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+				</a>
+				<ul class="dropdown-menu dropdown-user">
+						<li><a><i class="fa fa-user fa-fw"></i> {{ vm.username }}</a>
+						</li>
+						<li><a href="#/account/cambioPassword"><i class="fa fa-key fa-fw"></i> Cambio Password</a>
+						</li>
+						<li class="divider"></li>
+						<li><a ng-click="vm.logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+						</li>
+				</ul>
+				<!-- /.dropdown-user -->
+		</li>
+		<!-- /.dropdown -->
+</ul>

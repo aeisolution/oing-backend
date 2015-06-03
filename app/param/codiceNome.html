@@ -1,0 +1,71 @@
+<ng-include src="'/app/common/pageHeader.html'"></ng-include>
+
+<div class="row">
+	<div class="panel panel-default">
+			<div class="panel-heading">
+					<i class="fa fa-bar-chart-o fa-fw"></i> Elenco
+					<div class="pull-right">
+							<div class="btn-group">
+									<button class="btn btn-default" ng-click="vm.new()">Aggiungi</button>
+									<button class="btn btn-default" ng-click="vm.refresh()">Aggiorna</button>
+							</div>
+					</div>
+			</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">
+				<div>
+					<form role="form" class="form-inline">
+						<div class="form-group">
+							<label>Nome</label>
+							<input ng-model="vm.filter" class="form-control">
+						</div>
+						<button type="submit" ng-click="vm.search()" class="btn btn-default">cerca</button>
+					</form>
+				</div>
+				<hr class="divider" />
+				<div class="row">
+					<div class="table-responsive col-xs-12">
+								<table class="table table-bordered table-hover table-striped">
+										<thead>
+												<tr>
+														<th>Codice/Prorità</th>
+														<th>Nome</th>
+														<th class="col-md-2">Azioni</th>
+												</tr>
+										</thead>
+										<tbody>
+												<tr ng-repeat="param in vm.elenco | orderBy: 'titolo'">
+													<!-- edit columns -->
+													<td ng-if="param.edit">
+														<input ng-model="param.codice" class="form-control">
+													</td>
+													<td ng-if="param.edit">
+														<input ng-model="param.nome" class="form-control">
+													</td>
+													<!-- view columns -->
+													<td ng-if="!param.edit">{{ param.codice }}</td>
+													<td ng-if="!param.edit">{{ param.nome }}</td>
+													<td class="col-md-2">
+														<div ng-if="!param.edit">
+															<button ng-click="vm.edit(param)" class="btn btn-primary btn-sm">
+																<i class="fa fa-pencil"></i> <span class="hidden-xs hidden-sm">modifica</span></button> 
+															<button ng-click="vm.delete(param)" class="btn btn-danger btn-sm">
+																<i class="fa fa-times"></i> <span class="hidden-xs hidden-sm">elimina</span></button> 
+														</div>
+														<div ng-if="param.edit">
+															<button ng-click="vm.save(param)" class="btn btn-success btn-sm"><i class="fa fa-floppy-o"></i> <span class="hidden-xs hidden-sm">salva</span></button> 
+															<button ng-click="vm.cancel(param)" class="btn btn-default btn-sm"><i class="fa fa-undo"></i> <span class="hidden-xs hidden-sm">annulla</span></button> 
+														</div>
+													</td>
+												</tr>
+										</tbody>
+								</table>
+					</div>
+						<!-- /.table-responsive -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.panel-body -->
+	</div>
+	<!-- /.panel -->
+</div>

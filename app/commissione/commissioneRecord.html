@@ -1,0 +1,146 @@
+<div class="panel panel-default">
+		<div class="panel-heading">
+				<i class="fa fa-bar-chart-o fa-fw"></i> Commissione <b>{{ vm.record.nome }}</b>
+				<div class="pull-right">
+						<div class="btn-group">
+							<button class="btn btn-default btn-xs" ng-click="vm.switchView('elenco')">elenco</button>
+								<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+										Actions
+										<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu pull-right" role="menu">
+										<li><a href="#">Action</a>
+										</li>
+										<li><a href="#">Another action</a>
+										</li>
+										<li><a href="#">Something else here</a>
+										</li>
+										<li class="divider"></li>
+										<li><a href="#">Separated link</a>
+										</li>
+								</ul>
+						</div>
+				</div>
+		</div>
+		<!-- /.panel-heading -->
+		<div class="panel-body">
+				<div class="row">
+						<tabset>
+							<tab>
+								<tab-heading>
+									<i class="fa fa-file-o"></i> Scheda
+								</tab-heading>
+								<form name="recordForm" role="form" class="col-xs-12" novalidate>
+									<div class="form-group" ng-class="{'has-error': recordForm.$dirty && recordForm.nome.$invalid }">
+											<label class="control-label">Nome</label>
+											<input name="nome" ng-model="vm.record.nome" class="form-control" required>
+											<div ng-messages="recordForm.nome.$error" ng-messages-include="app/common/messages.html"></div>
+									</div>
+									<div class="form-group" ng-class="{'has-success': recordForm.$pristine }">
+											<label>Descrizione</label>
+											<input ng-model="vm.record.descrizione" class="form-control" placeholder="breve descrizione">
+									</div>
+									<div class="form-group">
+											<label>Contenuto</label>
+											<textarea ng-model="vm.record.contenuto" class="form-control" rows="3"></textarea>
+											<p class="help-block">Inserire descrizone dettagliata delle attività e degli obiettivi.</p>
+									</div>
+									<hr class="divider"></hr>
+									<div class="form-group">
+											<label>Referente</label>
+											<input ng-model="vm.record.referente.nominativo" class="form-control">
+											<p class="help-block">Inserire nomiativo del Referente in Consiglio.</p>
+									</div>
+									<div class="form-group col-sm-6">
+											<label>Sezione</label>
+											<select ng-model="vm.record.referente.sezione" class="form-control">
+													<option>A</option>
+													<option>B</option>
+											</select>											
+									</div>
+									<div class="form-group col-sm-6">
+											<label>Numero</label>
+											<input ng-model="vm.record.referente.numero" class="form-control" type="number">
+									</div>
+									<hr class="divider"></hr>
+									<div class="form-group">
+											<label>Note</label>
+											<textarea ng-model="vm.record.note" class="form-control" rows="3"></textarea>
+									</div>
+
+									<button ng-disabled="recordForm.$pristine || recordForm.$invalid" ng-click="vm.save()" type="submit" class="btn btn-success">Salva</button>
+									<button type="reset" class="btn btn-default">Annulla</button>
+								</form>
+
+							</tab>
+							<tab>
+								<tab-heading>
+									<i class="fa fa-users"></i> Componenti <span class="badge" ng-if="vm.record.componenti.length>0">{{ vm.record.componenti.length }}</span>
+								</tab-heading>
+								<div class="col-xs-12">
+									<div class="panel panel-default" >
+										<button class="btn btn-default" ng-click="vm.componenteIsCollapsed = !vm.componenteIsCollapsed"><i class="fa fa-plus-circle"></i> componente</button>
+
+										<form class="panel-body" collapse="vm.componenteIsCollapsed">
+											<div class="form-group col-md-6">
+												<label>Nominativo</label>
+												<input ng-model="vm.componente.nominativo" class="form-control">
+											</div>
+											<div class="form-group col-md-6">
+												<label>ruolo</label>
+												<select ng-model="vm.componente.ruolo" class="form-control">
+													<option selected>componente</option>
+													<option>coordinatore</option>
+													<option>segretario</option>
+												</select>											
+											</div>	
+											<div class="form-group col-sm-6">
+												<label>Sezione</label>
+												<select ng-model="vm.componente.sezione" class="form-control">
+													<option>A</option>
+													<option>B</option>
+												</select>											
+											</div>
+											<div class="form-group col-sm-6">
+												<label>Numero</label>
+												<input ng-model="vm.componente.numero" class="form-control">
+											</div>
+											<div class="form-group col-xs-12">
+												<button ng-click="vm.componenteAdd()" class="btn btn-default">Aggiungi</button>
+											</div>
+										</form>
+									</div>
+								</div>
+										<div class="table-responsive col-xs-12">
+													<table class="table table-bordered table-hover table-striped">
+															<thead>
+																	<tr>
+																			<th>Nominativo</th>
+																			<th>Albo</th>
+																			<th>Ruolo</th>
+																			<th>Azioni</th>
+																	</tr>
+															</thead>
+															<tbody>
+																	<tr ng-repeat="comp in vm.record.componenti | orderBy: 'nominativo'">
+																		<td>{{ comp.nominativo }}</td>
+																		<td>{{ comp.numero }}/{{ comp.sezione }}</td>
+																		<td>{{ comp.ruolo }}</td>
+																		<td>
+																			<button ng-click="vm.componenteDelete(comp)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+																		</td>
+																	</tr>
+															</tbody>
+													</table>
+
+										</div>
+											<!-- /.table-responsive -->
+							</tab>
+
+						</tabset>
+
+				</div>
+				<!-- /.row -->
+		</div>
+		<!-- /.panel-body -->
+</div>

@@ -1,0 +1,128 @@
+<div class="navbar-default sidebar" role="navigation" ng-controller="sidebarCtrl as vm">
+	<div class="sidebar-nav navbar-collapse">
+			<ul class="nav" id="side-menu">
+					<!-- SEARCH
+					<li class="sidebar-search">
+							<div class="input-group custom-search-form">
+								<input type="text" class="form-control" placeholder="Search...">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button">
+										<i class="fa fa-search"></i>
+									</button>
+								</span>
+							</div>
+					</li>
+					-->
+					<li>
+							<a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+					</li>
+					<li>
+							<a ng-click="vm.subOrdine = !vm.subOrdine"><i class="fa fa-university fa-fw"></i> Ordine degli Ingegneri<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level" collapse="!vm.subOrdine">
+									<li>
+											<a href="#/ordine/consiglio/territoriale"> Consiglio Territoriale</a>
+									</li>
+									<li>
+											<a href="#/ordine/consiglio/disciplina"> Consiglio di Disciplina</a>
+									</li>
+									<li>
+											<a href="#/ordine/commissioni"> Commissioni</a>
+									</li>
+							</ul>
+							<!-- /.nav-second-level -->
+					</li>
+					<li>
+							<a href="#/albo"><i class="fa fa-group fa-fw"></i> Albo Iscritti</a>
+					</li>
+					<li>
+							<a ng-click="vm.subArchivio = !vm.subArchivio"><i class="fa fa-database fa-fw"></i> Archivio<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level" collapse="!vm.subArchivio">
+									<li>
+											<a href="#/archivio/circolari"> Circolari</a>
+									</li>
+									<li>
+											<a href="#/archivio/convenzioni"> Convenzioni</a>
+									</li>
+									<li>
+											<a href="#/archivio/eventiFormativi"> Eventi Formativi</a>
+									</li>
+									<li>
+											<a href="#/archivio/norme"> Normativa</a>
+									</li>
+									<li>
+											<a href="#/archivio/notizie"> Notizie</a>
+									</li>
+							</ul>
+							<!-- /.nav-second-level -->
+					</li>
+					<li>
+							<a href="#/fatture"><i class="fa fa-money fa-fw"></i> Fatture Elettroniche</a>
+					</li>
+					<li>
+							<a href="#/repository"><i class="fa fa-upload fa-fw"></i> File Repository</a>
+					</li>
+				<!-- FORMAZIONE
+					<li>
+							<a ng-click="vm.subFormazione = !vm.subFormazione"><i class="fa fa-graduation-cap fa-fw"></i> Formazione<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level" collapse="!vm.subFormazione">
+									<li>
+											<a href="#"> Eventi</a>
+									</li>
+									<li>
+											<a href="#"> Iscrizioni</a>
+									</li>
+									<li>
+											<a href="#"> Patecipanti e CFP</a>
+									</li>
+									<li>
+											<a href="#"> Piano Offerta Formativa</a>
+									</li>
+									<li>
+											<a href="#"> Risorse</a>
+									</li>
+							</ul>
+					</li>				
+					-->
+					<li>
+							<a href="#/pagine"><i class="fa fa-file-o fa-fw"></i> Pagine web</a>
+					</li>
+					<li>
+							<a ng-click="vm.subParametri = !vm.subParametri"><i class="fa fa-wrench fa-fw"></i> Parametri<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level" collapse="!vm.subParametri">
+									<li>
+											<a href="#/params/categoria"> Categorie</a>
+									</li>
+									<li>
+											<a href="#/params/documento"> Documento</a>
+									</li>
+									<li>
+											<a href="#/params/laurea"> Lauree</a>
+									</li>
+									<li>
+											<a href="#/params/ruoloCommissione"> Ruoli Commissione</a>
+									</li>
+									<li>
+											<a href="#/params/ruoloConsiglio"> Ruoli Consiglio</a>
+									</li>
+									<li>
+											<a href="#/params/settore"> Settori</a>
+									</li>
+									<li>
+											<a href="#/params/tag"> Tag</a>
+									</li>
+							</ul>
+							<!-- /.nav-second-level -->
+					</li>								
+					<li>
+							<a ng-click="vm.subAdmin = !vm.subAdmin"><i class="fa fa-cogs fa-fw"></i> Admin<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level" collapse="!vm.subAdmin">
+									<li>
+											<a href="#/admin/account"> Utenti</a>
+									</li>
+							</ul>
+							<!-- /.nav-second-level -->
+					</li>	
+			</ul>
+	</div>
+	<!-- /.sidebar-collapse -->
+</div>

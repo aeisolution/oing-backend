@@ -1,0 +1,34 @@
+{
+  "name": "oing-backend",
+  "version": "0.1.0",
+  "authors": [
+    "madda.be"
+  ],
+  "description": "Client side - backoffice per gestione dati",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "angular": "~1.3.15",
+    "angular-route": "~1.3.15",
+    "metisMenu": "~2.0.0",
+    "font-awesome": "~4.3.0",
+    "angular-ui-bootstrap-bower": "~0.13.0",
+    "angular-animate": "~1.3.15",
+    "angular-sanitize": "~1.3.15",
+    "angular-messages": "~1.3.15",
+    "angular-toastr": "~1.4.1",
+    "textAngular": "~1.4.1"
+  }
+}

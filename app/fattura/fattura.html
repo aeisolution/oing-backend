@@ -1,0 +1,70 @@
+<ng-include src="'/app/common/pageHeader.html'"></ng-include>
+
+<div class="row">
+	<div class="panel panel-default">
+			<div class="panel-heading">
+					<i class="fa fa-bar-chart-o fa-fw"></i> Elenco
+					<div class="pull-right">
+							<div class="btn-group">
+									<button class="btn btn-default btn-xs" ng-click="vm.refresh()">Aggiorna</button>
+							</div>
+					</div>
+			</div>
+			<!-- /.panel-heading -->
+			<div class="panel-body">
+				<div class="row">
+    <form ng-submit="vm.sendFile(vm.file)" method="post" enctype="multipart/form-data">
+    	<input type="file" file-model="vm.file" accept=".xml" ><br>
+    	<input type="submit" value="Upload" class="btn btn-success">
+    </form>
+</div>
+
+				<hr class="divider" />
+				<div class="row">
+					<div class="table-responsive col-xs-12">
+								<table class="table table-bordered table-hover table-striped">
+										<thead>
+												<tr>
+														<th>Titolo</th>
+														<th>Descrizione</th>
+														<th>Data</th>
+														<th>Azioni</th>
+												</tr>
+										</thead>
+										<tbody>
+												<tr ng-repeat="file in vm.elenco | orderBy: 'filename'">
+													<!-- edit columns -->
+													<td ng-if="file.edit">
+														<input ng-model="file.titolo" class="form-control">
+													</td>
+													<td ng-if="file.edit">
+														<input ng-model="file.descrizione" class="form-control">
+													</td>
+													<!-- view columns -->
+													<td ng-if="!file.edit">{{ file.titolo }}</td>
+													<td ng-if="!file.edit">{{ file.descrizione }}</td>
+													<td>{{ file.filename }}</td>
+													<td>{{ file.type }}</td>
+													<td>
+														<div ng-if="!file.edit">
+															<button ng-click="vm.preview(file)" class="btn btn-default btn-sm"><i class="fa fa-print"></i></button> 
+															<button ng-click="vm.edit(file)" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></button> 
+															<button ng-click="vm.delete(file)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+														</div>
+														<div ng-if="file.edit">
+															<button ng-click="vm.save(file)" class="btn btn-success btn-sm"><i class="fa fa-floppy-o"></i> salva</button> 
+															<button ng-click="vm.cancel(file)" class="btn btn-default btn-sm"><i class="fa fa-undo"></i> annulla</button> 
+														</div>
+													</td>
+												</tr>
+										</tbody>
+								</table>
+					</div>
+						<!-- /.table-responsive -->
+				</div>
+				<!-- /.row -->
+			</div>
+			<!-- /.panel-body -->
+	</div>
+	<!-- /.panel -->
+</div>
