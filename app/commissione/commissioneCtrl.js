@@ -16,6 +16,9 @@
 		vm.filter = '';
 		vm.fields = 'nome=1&descrizione=1&referente.nominativo=0';
 		
+		//Collapse
+		vm.addIsCollapsed = true;
+		
 		//Actions
 		vm.delete = deleteConfirm;
 		vm.new = createNew;

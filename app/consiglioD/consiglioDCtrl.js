@@ -16,6 +16,9 @@
 		
 		vm.ruoli = [];
 		
+		vm.add1IsCollapsed = true;
+		vm.add2IsCollapsed = true;
+		
 		vm.opened = {
 			nomina: false,
 			insediamento: false

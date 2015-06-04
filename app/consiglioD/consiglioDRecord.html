@@ -59,7 +59,11 @@
 								<tab-heading>
 									<i class="fa fa-users"></i> Consiglieri <span class="badge" ng-if="vm.record.componenti.length>0">{{ vm.record.componenti.length }}</span>
 								</tab-heading>
-									<form class="col-sx-12">
+								<hr class="clearfix" />
+								<div class="col-xs-12">
+									<div class="panel panel-default" >
+										<button class="btn btn-default" ng-click="vm.add1IsCollapsed = !vm.add1IsCollapsed"><i class="fa fa-plus-circle"></i> </button>
+										<form class="panel-body" collapse="vm.add1IsCollapsed">
 										<div class="form-group col-md-6">
 											<label>Nominativo</label>
 											<input ng-model="vm.componente.nominativo" class="form-control">
@@ -84,7 +88,10 @@
 										<div class="form-group col-xs-12">
 											<button ng-click="vm.componenteAdd()" class="btn btn-default">Aggiungi</button>
 										</div>
-									</form>
+									</form>										
+									</div>
+								</div>
+									
 										<div class="table-responsive col-xs-12">
 													<table class="table table-bordered table-hover table-striped">
 															<thead>
@@ -114,7 +121,10 @@
 								<tab-heading>
 									<i class="fa fa-sitemap"></i> Collegi <span class="badge" ng-if="vm.record.collegi.length>0">{{ vm.record.collegi.length }}</span>
 								</tab-heading>
-									<form class="col-sx-12">
+								<div class="col-xs-12">
+									<div class="panel panel-default" >
+										<button class="btn btn-default" ng-click="vm.add2IsCollapsed = !vm.add2IsCollapsed"><i class="fa fa-plus-circle"></i> </button>
+										<form class="panel-body" collapse="vm.add2IsCollapsed">
 										<div class="form-group col-md-3">
 											<label>Numero</label>
 											<input ng-model="vm.collegio.numero" class="form-control" type="number" required>
@@ -134,7 +144,11 @@
 										<div class="form-group col-xs-12">
 											<button ng-click="vm.collegioAdd()" class="btn btn-default">Aggiungi</button>
 										</div>
-									</form>
+									</form>										
+									</div>
+								</div>
+								
+									
 										<div class="table-responsive col-xs-12">
 													<table class="table table-bordered table-hover table-striped">
 															<thead>

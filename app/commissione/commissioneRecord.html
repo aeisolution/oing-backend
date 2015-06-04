@@ -36,7 +36,7 @@
 											<input name="nome" ng-model="vm.record.nome" class="form-control" required>
 											<div ng-messages="recordForm.nome.$error" ng-messages-include="app/common/messages.html"></div>
 									</div>
-									<div class="form-group" ng-class="{'has-success': recordForm.$pristine }">
+									<div class="form-group" ng-class="{'has-error': recordForm.$dirty && recordForm.descrizione.$invalid }">
 											<label>Descrizione</label>
 											<input ng-model="vm.record.descrizione" class="form-control" placeholder="breve descrizione">
 									</div>
@@ -77,11 +77,12 @@
 								<tab-heading>
 									<i class="fa fa-users"></i> Componenti <span class="badge" ng-if="vm.record.componenti.length>0">{{ vm.record.componenti.length }}</span>
 								</tab-heading>
+								<hr class="clearfix" />
 								<div class="col-xs-12">
 									<div class="panel panel-default" >
-										<button class="btn btn-default" ng-click="vm.componenteIsCollapsed = !vm.componenteIsCollapsed"><i class="fa fa-plus-circle"></i> componente</button>
+										<button class="btn btn-default" ng-click="vm.addIsCollapsed = !vm.addIsCollapsed"><i class="fa fa-plus-circle"></i> </button>
 
-										<form class="panel-body" collapse="vm.componenteIsCollapsed">
+										<form class="panel-body" collapse="vm.addIsCollapsed">
 											<div class="form-group col-md-6">
 												<label>Nominativo</label>
 												<input ng-model="vm.componente.nominativo" class="form-control">

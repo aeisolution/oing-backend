@@ -90,9 +90,6 @@
 							<a ng-click="vm.subParametri = !vm.subParametri"><i class="fa fa-wrench fa-fw"></i> Parametri<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level" collapse="!vm.subParametri">
 									<li>
-											<a href="#/params/categoria"> Categorie</a>
-									</li>
-									<li>
 											<a href="#/params/documento"> Documento</a>
 									</li>
 									<li>
@@ -111,8 +108,16 @@
 											<a href="#/params/tag"> Tag</a>
 									</li>
 							</ul>
-							<!-- /.nav-second-level -->
 					</li>								
+					<li>
+							<a ng-click="vm.subTrasparenza = !vm.subTrasparenza"><i class="fa fa-shield fa-fw"></i> Trasparenza<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level" collapse="!vm.subTrasparenza">
+									<li>
+											<a href="#/trasparenza/bilanci"> Bilanci</a>
+									</li>
+							</ul>
+					</li>								
+					<!--
 					<li>
 							<a ng-click="vm.subAdmin = !vm.subAdmin"><i class="fa fa-cogs fa-fw"></i> Admin<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level" collapse="!vm.subAdmin">
@@ -120,8 +125,8 @@
 											<a href="#/admin/account"> Utenti</a>
 									</li>
 							</ul>
-							<!-- /.nav-second-level -->
 					</li>	
+					-->
 			</ul>
 	</div>
 	<!-- /.sidebar-collapse -->

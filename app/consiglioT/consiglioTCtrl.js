@@ -15,6 +15,9 @@
 		
 		vm.ruoli = [];
 		
+		//Collapse
+		vm.addIsCollapsed = true;
+		
 		vm.opened = {
 			elezione: false,
 			insediamento: false

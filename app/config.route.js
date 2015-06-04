@@ -20,6 +20,31 @@
 					access: {
 						requiredLogin: true
 					}
+				// Archivi *****************************************
+				}).when('/archivio/circolari', {
+					templateUrl: '/app/circolare/circolareMain.html',
+					controller: 'circolareCtrl as vm',
+					access: {
+						requiredLogin: true
+					}				
+				}).when('/archivio/convenzioni', {
+					templateUrl: '/app/convenzione/convenzioneMain.html',
+					controller: 'convenzioneCtrl as vm',
+					access: {
+						requiredLogin: true
+					}				
+				}).when('/archivio/notizie', {
+					templateUrl: '/app/notizia/notiziaMain.html',
+					controller: 'notiziaCtrl as vm',
+					access: {
+						requiredLogin: true
+					}				
+				}).when('/pagine', {
+					templateUrl: '/app/pagina/paginaMain.html',
+					controller: 'paginaCtrl as vm',
+					access: {
+						requiredLogin: true
+					}				
 				// Ordine *****************************************
 				}).when('/ordine/commissioni', {
 					templateUrl: '/app/commissione/commissioneMain.html',
@@ -58,12 +83,6 @@
 						requiredLogin: true
 					}
 				// parametri *****************************************
-				}).when('/params/categoria', {
-					templateUrl: '/app/param/codiceNome.html',
-					controller: 'categoriaCtrl as vm',
-					access: {
-						requiredLogin: true
-					}
 				}).when('/params/documento', {
 					templateUrl: '/app/param/codiceNome.html',
 					controller: 'documentoCtrl as vm',

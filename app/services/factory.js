@@ -160,8 +160,12 @@
 		}
 		
 		//*************************************************
-		// Metodi per FATTURA
+		// Metodi Preview
 		//*************************************************
+		_Factory.filePreview = function(id) {
+			return $http.get(urlBase + '/files/' + id + '/preview');
+		}
+
 		_Factory.fatturaPreview = function(id) {
 			return $http.get(urlBase + '/fatture/' + id + '/preview');
 		}

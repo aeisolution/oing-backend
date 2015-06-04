@@ -27,7 +27,6 @@
 												<tr>
 														<th>Titolo</th>
 														<th>Descrizione</th>
-														<th>File</th>
 														<th>Tipo</th>
 														<th>Azioni</th>
 												</tr>
@@ -44,7 +43,6 @@
 													<!-- view columns -->
 													<td ng-if="!file.edit">{{ file.titolo }}</td>
 													<td ng-if="!file.edit">{{ file.descrizione }}</td>
-													<td>{{ file.filename }}</td>
 													<td>{{ file.type }}</td>
 													<td>
 														<div ng-if="!file.edit">

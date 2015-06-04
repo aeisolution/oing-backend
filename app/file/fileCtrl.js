@@ -14,11 +14,11 @@
 		
 		//Actions
 		vm.delete = deleteConfirm;
-		vm.new = createNew;
 		vm.refresh = getElenco;
 		vm.save = save;
 		vm.edit = edit;
 		vm.cancel = cancel;
+		vm.preview = preview;
 		
 		vm.sendFile = sendFile;
 
@@ -41,7 +41,6 @@
 		}
 		
 		function sendFile(file) {
-			console.log('sendfile...');
 			if(!file) {
 				return toastr.warning('Select File');
 			}
@@ -51,9 +50,9 @@
 					function (data) { 
 						toastr.success('file uploaded');
 						vm.elenco.push(data.data);
+						vm.file = '';
 					},
 					function (err, status) {
-						console.dir(err);
 						toastr.error('ERROR upload');
         }
 			);
@@ -93,7 +92,7 @@
 		}
 		
 		function deleteConfirm(item) {
-			var strConfirm = 'Laurea ' + item.codice + ' - ' + item.titolo;
+			var strConfirm = item.titolo;
 			
 			var modalInstance = $modal.open({
 				templateUrl: 'app/common/modalConfirm.html',
@@ -114,14 +113,12 @@
 		}
 		
 		function save(item) {
-			/*
-			if(!item._id) postRecord(item);
-			else putRecord(item);
-			*/
+			if(item._id) {
+				putRecord(item);
+			}
 		}
 		
 		function edit(item) {
-			console.log('edit');
 			item.edit = true;
 		}
 		
@@ -129,9 +126,13 @@
 			delete item.edit;
 		}
 
-		function createNew() {
-			vm.elenco.push({edit: true});
+		function preview(item) {
+			dataFactory.filePreview(item._id).then(function (data) {
+				toastr.success('download avviato..');
+			});
 		}
+
+		
 		
 		//-----------------
 		// Azioni su Componenti
