@@ -21,6 +21,7 @@
 					UserAuthFactory.login(username, password).success(function(data) {
 
 						AuthenticationFactory.isLogged = true;
+						console.log(data);
 						AuthenticationFactory.user = data.user.username;
 						AuthenticationFactory.userRole = data.user.role;
 

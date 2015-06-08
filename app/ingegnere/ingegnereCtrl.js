@@ -10,6 +10,8 @@
 		vm.title = 'Albo Ingegneri';
 		vm.view = 'elenco';
 		vm.elenco = [];
+		vm.page = 1;
+		vm.numRecords = 0;
 		vm.record = {};
 		
 		vm.lauree = [];
@@ -38,14 +40,15 @@
 		//Actions
 		vm.delete = deleteConfirm;
 		vm.new = createNew;
-		vm.refresh = getElenco;
+		vm.refresh = getPage;
 		vm.save = save;
 		vm.select = select;
 		vm.switchView = switchView;
 		
 
 		//ACTIVATE *****************************************
-		getElenco();
+		getPage();
+		count();
 		getLauree();
 
 		//****************************************************
@@ -57,11 +60,18 @@
 			});
 		}
 		
-		function getElenco() {
-			dataFactory.baseGetAll('ingegneri', vm.fields).then(function (data) {
+		function getPage() {
+			dataFactory.baseGetPage('ingegneri', vm.page).then(function (data) {
 				vm.elenco = data.data;
 			});
 		}
+
+		function count() {
+			dataFactory.baseCount('ingegneri').then(function (data) {
+				vm.numRecords = data.data;
+			});
+		}
+		
 
 		function getRecord(id) {
 			return dataFactory.baseGetById('ingegneri', id).then(function (data) {

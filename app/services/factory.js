@@ -81,6 +81,19 @@
 		//*************************************************
 		// Metodi per API Base
 		//*************************************************
+		_Factory.baseGetPage = function(entity, page) {
+			var p = page || '1';
+			return $http.get(urlBase + '/' + entity + '/page/' + p);
+		};
+		
+		_Factory.baseCountPage = function(entity) {
+			return $http.get(urlBase + '/' + entity + '/count/page');
+		};
+		
+		_Factory.baseCount = function(entity) {
+			return $http.get(urlBase + '/' + entity + '/count');
+		};
+
 		_Factory.baseGetAll = function(entity, fields) {
 			var q = fields || '';
 			return $http.get(urlBase + '/' + entity + '?' + q);
