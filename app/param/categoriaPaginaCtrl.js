@@ -2,53 +2,65 @@
 
 (function () {
 	'use strict';
-	var controllerId = 'tagCtrl';
-	angular.module('app').controller(controllerId, ['dataFactory', '$modal', 'toastr', tagCtrl]);
+	var controllerId = 'categoriaPaginaCtrl';
+	angular.module('app').controller(controllerId, ['dataFactory', '$modal', 'toastr', categoriaPaginaCtrl]);
 
-	function tagCtrl(dataFactory, $modal, toastr) {
+	function categoriaPaginaCtrl(dataFactory, $modal, toastr) {
 		var vm = this;
-		vm.title = 'Elenco Tags';
-		vm.url = 'params/tag'
+		vm.title = 'Categorie Pagine web';
 		vm.view = 'elenco';
 		vm.elenco = [];
 		vm.componente = {};
+		
+		vm.page = 1;
+		vm.numRecords = 0;
+
 		
 		vm.filter = '';
 		
 		//Actions
 		vm.delete = deleteConfirm;
 		vm.new = createNew;
-		vm.refresh = getElenco;
+		vm.refresh = getPage;
 		vm.save = save;
 		vm.edit = edit;
 		vm.cancel = cancel;
 
 		//ACTIVATE *****************************************
-		getElenco();
+		getPage();
+		count();
 
 		//****************************************************
 		// METODI 
 		//****************************************************
-		function getElenco() {
-			dataFactory.baseGetAll(vm.url).then(function (data) {
+		function getPage() {
+			dataFactory.baseGetPage('params/categoriePagina', vm.page).then(function (data) {
 				vm.elenco = data.data;
 			});
 		}
 
+		function count() {
+			dataFactory.baseCount('params/categoriePagina').then(function (data) {
+				vm.numRecords = data.data;
+			});
+		}
+
+
 		function getByFilter(filter) {
-			dataFactory.baseGetAllByFilter(vm.url, filter).then(function (data) {
+			dataFactory.baseGetAllByFilter('params/categoriePagina', filter).then(function (data) {
 				vm.elenco = data.data;
 			});
 		}
 		
 		function postRecord(item) {
 			var index = vm.elenco.indexOf(item);
+			var obj = {};
+			obj.nome = item.nome;
 			
-			dataFactory.basePost(vm.url,item)
+			dataFactory.basePost('params/categoriePagina',obj)
 				.then(
 					function (data) {
-						vm.elenco.splice(index, 1);
-						vm.elenco.push(data.data);
+						getPage();
 						toastr.success('record saved');
 					}, 
 					function (err) {
@@ -59,15 +71,19 @@
 		}
 
 		function putRecord(item) {
-			dataFactory.basePut(vm.url, item._id, item).then(function (data) {
-				delete item.edit;
+			var obj = {};
+			obj._id = item._id;
+			obj.nome = item.nome;
+			
+			dataFactory.basePut('params/categoriePagina', item._id, obj).then(function (data) {
+						getPage();
 				toastr.success('record updated');
 			});
 		}
 
 		function deleteRecord(item) {
 			var index = vm.elenco.indexOf(item);
-			dataFactory.baseDelete(vm.url, item._id).then(function (data) {
+			dataFactory.baseDelete('params/categoriePagina', item._id).then(function (data) {
 				vm.elenco.splice(index, 1);
 				toastr.success('record deleted');
 			});
@@ -111,6 +127,7 @@
 			} else {
 				delete item.edit;
 			}
+
 		}
 
 		function createNew() {

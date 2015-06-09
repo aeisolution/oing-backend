@@ -12,42 +12,56 @@
 		vm.elenco = [];
 		vm.componente = {};
 		
+		vm.page = 1;
+		vm.numRecords = 0;
+
+		
 		vm.filter = '';
 		
 		//Actions
 		vm.delete = deleteConfirm;
 		vm.new = createNew;
-		vm.refresh = getElenco;
+		vm.refresh = getPage;
 		vm.save = save;
 		vm.edit = edit;
 		vm.cancel = cancel;
 
 		//ACTIVATE *****************************************
-		getElenco();
+		getPage();
+		count();
 
 		//****************************************************
 		// METODI 
 		//****************************************************
-		function getElenco() {
-			dataFactory.baseGetAll('params/laurea').then(function (data) {
+		function getPage() {
+			dataFactory.baseGetPage('params/lauree', vm.page).then(function (data) {
 				vm.elenco = data.data;
 			});
 		}
 
+		function count() {
+			dataFactory.baseCount('params/lauree').then(function (data) {
+				vm.numRecords = data.data;
+			});
+		}
+
+
 		function getByFilter(filter) {
-			dataFactory.baseGetAllByFilter('params/laurea', filter).then(function (data) {
+			dataFactory.baseGetAllByFilter('params/lauree', filter).then(function (data) {
 				vm.elenco = data.data;
 			});
 		}
 		
 		function postRecord(item) {
 			var index = vm.elenco.indexOf(item);
+			var obj = {};
+			obj.codice = item.codice;
+			obj.nome = item.nome;
 			
-			dataFactory.basePost('params/laurea',item)
+			dataFactory.basePost('params/lauree',obj)
 				.then(
 					function (data) {
-						vm.elenco.splice(index, 1);
-						vm.elenco.push(data.data);
+						getPage();
 						toastr.success('record saved');
 					}, 
 					function (err) {
@@ -58,22 +72,27 @@
 		}
 
 		function putRecord(item) {
-			dataFactory.basePut('params/laurea', item._id, item).then(function (data) {
-				delete item.edit;
+			var obj = {};
+			obj._id = item._id;
+			obj.codice = item.codice;
+			obj.nome = item.nome;
+			
+			dataFactory.basePut('params/lauree', item._id, obj).then(function (data) {
+				getPage();
 				toastr.success('record updated');
 			});
 		}
 
 		function deleteRecord(item) {
 			var index = vm.elenco.indexOf(item);
-			dataFactory.baseDelete('params/laurea', item._id).then(function (data) {
+			dataFactory.baseDelete('params/lauree', item._id).then(function (data) {
 				vm.elenco.splice(index, 1);
 				toastr.success('record deleted');
 			});
 		}
 		
 		function deleteConfirm(item) {
-			var strConfirm = 'Laurea ' + item.codice + ' - ' + item.titolo;
+			var strConfirm = 'Laurea ' + item.codice + ' - ' + item.nome;
 			
 			var modalInstance = $modal.open({
 				templateUrl: 'app/common/modalConfirm.html',
@@ -104,7 +123,13 @@
 		}
 		
 		function cancel(item) {
-			delete item.edit;
+			if(!item._id) {
+				var index = vm.elenco.indexOf(item);
+				vm.elenco.splice(index, 1);
+			} else {
+				delete item.edit;
+			}
+
 		}
 
 		function createNew() {

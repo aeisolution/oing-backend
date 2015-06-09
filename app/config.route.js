@@ -20,28 +20,16 @@
 					access: {
 						requiredLogin: true
 					}
-				// Archivi *****************************************
-				}).when('/archivio/circolari', {
-					templateUrl: '/app/circolare/circolareMain.html',
-					controller: 'circolareCtrl as vm',
-					access: {
-						requiredLogin: true
-					}				
-				}).when('/archivio/convenzioni', {
-					templateUrl: '/app/convenzione/convenzioneMain.html',
-					controller: 'convenzioneCtrl as vm',
-					access: {
-						requiredLogin: true
-					}				
-				}).when('/archivio/notizie', {
-					templateUrl: '/app/notizia/notiziaMain.html',
-					controller: 'notiziaCtrl as vm',
-					access: {
-						requiredLogin: true
-					}				
+				// Archivi *****************************************			
 				}).when('/pagine', {
 					templateUrl: '/app/pagina/paginaMain.html',
 					controller: 'paginaCtrl as vm',
+					access: {
+						requiredLogin: true
+					}				
+				}).when('/news', {
+					templateUrl: '/app/news/newsMain.html',
+					controller: 'newsCtrl as vm',
 					access: {
 						requiredLogin: true
 					}				
@@ -83,9 +71,15 @@
 						requiredLogin: true
 					}
 				// parametri *****************************************
-				}).when('/params/documento', {
-					templateUrl: '/app/param/codiceNome.html',
-					controller: 'documentoCtrl as vm',
+				}).when('/params/categoriaNews', {
+					templateUrl: '/app/param/nome.html',
+					controller: 'categoriaNewsCtrl as vm',
+					access: {
+						requiredLogin: true
+					}
+				}).when('/params/categoriaPagina', {
+					templateUrl: '/app/param/nome.html',
+					controller: 'categoriaPaginaCtrl as vm',
 					access: {
 						requiredLogin: true
 					}
@@ -104,18 +98,6 @@
 				}).when('/params/ruoloConsiglio', {
 					templateUrl: '/app/param/codiceNome.html',
 					controller: 'ruoloConsiglioCtrl as vm',
-					access: {
-						requiredLogin: true
-					}
-				}).when('/params/settore', {
-					templateUrl: '/app/param/nome.html',
-					controller: 'settoreCtrl as vm',
-					access: {
-						requiredLogin: true
-					}
-				}).when('/params/tag', {
-					templateUrl: '/app/param/nome.html',
-					controller: 'tagCtrl as vm',
 					access: {
 						requiredLogin: true
 					}

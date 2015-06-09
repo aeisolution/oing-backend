@@ -94,15 +94,13 @@
 			return $http.get(urlBase + '/' + entity + '/count');
 		};
 
-		_Factory.baseGetAll = function(entity, fields) {
-			var q = fields || '';
-			return $http.get(urlBase + '/' + entity + '?' + q);
+		_Factory.baseGetAll = function(entity) {
+			return $http.get(urlBase + '/' + entity);
 		};
 		
-		_Factory.baseGetAllByFilter = function(entity, filter, fields) {
+		_Factory.baseGetAllByFilter = function(entity, filter) {
 			var f = filter || '';
-			var q = fields || '';
-			return $http.get(urlBase + '/' + entity + '/filter/' + f + '?' + q);
+			return $http.get(urlBase + '/' + entity + '/filter/' + fq);
 		};
 
 		_Factory.baseGetById = function(entity, id) {

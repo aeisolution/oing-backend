@@ -7,48 +7,61 @@
 
 	function ruoloCommissioneCtrl(dataFactory, $modal, toastr) {
 		var vm = this;
-		vm.title = 'Ruoli Commissione';
-		vm.url = 'params/ruoloCommissione'
+		vm.title = 'Ruoli Componenti Commissioni';
 		vm.view = 'elenco';
 		vm.elenco = [];
 		vm.componente = {};
+		
+		vm.page = 1;
+		vm.numRecords = 0;
+
 		
 		vm.filter = '';
 		
 		//Actions
 		vm.delete = deleteConfirm;
 		vm.new = createNew;
-		vm.refresh = getElenco;
+		vm.refresh = getPage;
 		vm.save = save;
 		vm.edit = edit;
 		vm.cancel = cancel;
 
 		//ACTIVATE *****************************************
-		getElenco();
+		getPage();
+		count();
 
 		//****************************************************
 		// METODI 
 		//****************************************************
-		function getElenco() {
-			dataFactory.baseGetAll(vm.url).then(function (data) {
+		function getPage() {
+			dataFactory.baseGetPage('params/ruoliCommissione', vm.page).then(function (data) {
 				vm.elenco = data.data;
 			});
 		}
 
+		function count() {
+			dataFactory.baseCount('params/ruoliCommissione').then(function (data) {
+				vm.numRecords = data.data;
+			});
+		}
+
+
 		function getByFilter(filter) {
-			dataFactory.baseGetAllByFilter(vm.url, filter).then(function (data) {
+			dataFactory.baseGetAllByFilter('params/ruoliCommissione', filter).then(function (data) {
 				vm.elenco = data.data;
 			});
 		}
 		
 		function postRecord(item) {
 			var index = vm.elenco.indexOf(item);
+			var obj = {};
+			obj.codice = item.codice;
+			obj.nome = item.nome;
 			
-			dataFactory.basePost(vm.url,item)
+			dataFactory.basePost('params/ruoliCommissione',obj)
 				.then(
 					function (data) {
-						vm.elenco.splice(index, 1);
-						vm.elenco.push(data.data);
+						getPage();
 						toastr.success('record saved');
 					}, 
 					function (err) {
@@ -59,22 +72,27 @@
 		}
 
 		function putRecord(item) {
-			dataFactory.basePut(vm.url, item._id, item).then(function (data) {
-				delete item.edit;
+			var obj = {};
+			obj._id = item._id;
+			obj.codice = item.codice;
+			obj.nome = item.nome;
+			
+			dataFactory.basePut('params/ruoliCommissione', item._id, obj).then(function (data) {
+						getPage();
 				toastr.success('record updated');
 			});
 		}
 
 		function deleteRecord(item) {
 			var index = vm.elenco.indexOf(item);
-			dataFactory.baseDelete(vm.url, item._id).then(function (data) {
+			dataFactory.baseDelete('params/ruoliCommissione', item._id).then(function (data) {
 				vm.elenco.splice(index, 1);
 				toastr.success('record deleted');
 			});
 		}
 		
 		function deleteConfirm(item) {
-			var strConfirm = 'Laurea ' + item.codice + ' - ' + item.titolo;
+			var strConfirm = item.codice + ' - ' + item.nome;
 			
 			var modalInstance = $modal.open({
 				templateUrl: 'app/common/modalConfirm.html',
@@ -111,6 +129,7 @@
 			} else {
 				delete item.edit;
 			}
+
 		}
 
 		function createNew() {

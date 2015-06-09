@@ -2,12 +2,12 @@
 
 (function () {
 	'use strict';
-	var controllerId = 'paginaCtrl';
-	angular.module('app').controller(controllerId, ['dataFactory', '$scope', '$filter', '$modal', 'toastr', paginaCtrl]);
+	var controllerId = 'newsCtrl';
+	angular.module('app').controller(controllerId, ['dataFactory', '$scope', '$filter', '$modal', 'toastr', newsCtrl]);
 
-	function paginaCtrl(dataFactory, $scope, $filter, $modal, toastr) {
+	function newsCtrl(dataFactory, $scope, $filter, $modal, toastr) {
 		var vm = this;
-		vm.title = 'Pagine Web';
+		vm.title = 'News';
 		vm.view = 'elenco';
 		vm.elenco = [];
 		vm.page = 1;
@@ -37,26 +37,25 @@
 		// METODI 
 		//****************************************************
 		function getCategorie() {
-			dataFactory.baseGetAll('params/categoriePagina').then(function (data) {
+			dataFactory.baseGetAll('params/categorieNews').then(function (data) {
 				vm.categorie = data.data;
 			});
 		}
-
 		function getPage() {
-			dataFactory.baseGetPage('pagine', vm.page).then(function (data) {
+			dataFactory.baseGetPage('news', vm.page).then(function (data) {
 				vm.elenco = data.data;
 			});
 		}
 
 		function count() {
-			dataFactory.baseCount('pagine').then(function (data) {
+			dataFactory.baseCount('news').then(function (data) {
 				vm.numRecords = data.data;
 			});
 		}
 		
 
 		function getRecord(id) {
-			return dataFactory.baseGetById('pagine', id).then(function (data) {
+			return dataFactory.baseGetById('news', id).then(function (data) {
 				vm.record = data.data;				
 			});
 		}
@@ -66,7 +65,7 @@
 			console.log('record to post');
 			console.log(vm.record);
 			
-			dataFactory.basePost('pagine',vm.record)
+			dataFactory.basePost('news',vm.record)
 				.then(
 					function (data) {
 						getPage();
@@ -80,7 +79,7 @@
 		}
 
 		function putRecord() {
-			dataFactory.basePut('pagine', vm.record._id, vm.record).then(function (data) {
+			dataFactory.basePut('news', vm.record._id, vm.record).then(function (data) {
 				toastr.success('record updated');
 			});
 		}
@@ -89,7 +88,7 @@
 		
 		function deleteRecord(item) {
 			var index = vm.elenco.indexOf(item);
-			dataFactory.baseDelete('pagine', item._id).then(function (data) {
+			dataFactory.baseDelete('news', item._id).then(function (data) {
 				vm.elenco.splice(index, 1);
 				toastr.success('record deleted');
 			});
