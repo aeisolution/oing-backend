@@ -201,9 +201,9 @@
 									<form class="col-sx-12">
 										<div class="form-group col-md-6">
 											<label>Laurea</label>
-											<select ng-model="vm.laurea.titolo" class="form-control">
-												<option ng-repeat="laurea in vm.lauree | orderBy: 'nome'">{{ laurea.nome }}</option>
-											</select>	
+											<select ng-model="vm.laurea.titolo" ng-options="laurea.nome for laurea in vm.lauree | orderBy: 'nome' ">
+      									<option value="">-- seleziona --</option>
+    									</select>
 										</div>
 										<div class="form-group col-md-6">
 											<label>data</label>

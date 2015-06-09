@@ -3,7 +3,7 @@
 				<i class="fa fa-bar-chart-o fa-fw"></i> Elenco
 				<div class="pull-right">
 						<div class="btn-group">
-								<button class="btn btn-default btn-xs" ng-click="vm.new()">Nuovo Pagina</button>
+								<button class="btn btn-default btn-xs" ng-click="vm.new()">Nuova Pagina</button>
 								<button class="btn btn-default btn-xs" ng-click="vm.refresh()">Aggiorna</button>
 						</div>
 				</div>
@@ -15,26 +15,28 @@
 								<table class="table table-bordered table-hover table-striped">
 										<thead>
 												<tr>
-														<th>Nominativo</th>
-														<th>codiceFiscale</th>
-														<th>Albo</th>
+														<th>Titolo</th>
+														<th>Categoria</th>
+														<th>Data</th>
+														<th>Pubblicata</th>
 														<th>Azioni</th>
 												</tr>
 										</thead>
 										<tbody>
-												<tr ng-repeat="ing in vm.elenco">
-													<td>{{ ing.cognome }} {{ ing.nome }}</td>
-													<td>{{ ing.codiceFiscale }}</td>
-													<td>{{ ing._id }}</td>
+												<tr ng-repeat="pag in vm.elenco">
+													<td>{{ pag.titolo }}</td>
+													<td>{{ pag.categoria }}</td>
+													<td>{{ pag.dtInsert }}</td>
+													<td>{{ pag.Published }}</td>
 													<td>
-														<button ng-click="vm.select(ing)" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></button> 
-														<button ng-click="vm.delete(ing)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+														<button ng-click="vm.select(pag)" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></button> 
+														<button ng-click="vm.delete(pag)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
 													</td>
 												</tr>
 										</tbody>
 								</table>
 					</div>
-					<div class="col-xs-12">
+					<div class="col-xs-12" ng-if="vm.numRecords > 0">
 						<pagination total-items="vm.numRecords" ng-model="vm.page" max-size="7" class="pagination-sm" boundary-links="true" items-per-page="20" ng-change="vm.refresh()"></pagination>
 
 					</div>
