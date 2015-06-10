@@ -1,4 +1,4 @@
-// app/ordine/commissione/controller.js
+// app/parma/paramCtrl.js.js
 
 (function () {
 	'use strict';
@@ -7,10 +7,9 @@
 
 	function laureaCtrl(dataFactory, $modal, toastr) {
 		var vm = this;
-		vm.title = 'Titoli di Laurea';
-		vm.view = 'elenco';
+		vm.title = 'Classi di Laurea';
 		vm.elenco = [];
-		vm.componente = {};
+		vm.param = 'lauree';		//**** impostare nome parametro (plurale prima parola)
 		
 		vm.page = 1;
 		vm.numRecords = 0;
@@ -34,65 +33,54 @@
 		// METODI 
 		//****************************************************
 		function getPage() {
-			dataFactory.baseGetPage('params/lauree', vm.page).then(function (data) {
+			dataFactory.baseGetPage('params/' + vm.param, vm.page).then(function (data) {
 				vm.elenco = data.data;
 			});
 		}
 
 		function count() {
-			dataFactory.baseCount('params/lauree').then(function (data) {
+			dataFactory.baseCount('params/' + vm.param).then(function (data) {
 				vm.numRecords = data.data;
 			});
 		}
 
-
-		function getByFilter(filter) {
-			dataFactory.baseGetAllByFilter('params/lauree', filter).then(function (data) {
-				vm.elenco = data.data;
-			});
-		}
-		
 		function postRecord(item) {
 			var index = vm.elenco.indexOf(item);
-			var obj = {};
-			obj.codice = item.codice;
-			obj.nome = item.nome;
+			var obj = createParam(item);
 			
-			dataFactory.basePost('params/lauree',obj)
+			dataFactory.basePost('params/' + vm.param, obj)
 				.then(
 					function (data) {
-						getPage();
+						vm.elenco[index] = data.data;
+						vm.numRecords++;
 						toastr.success('record saved');
 					}, 
 					function (err) {
-						console.dir(err);
 						toastr.error(err.data.message);
 					}
 			);
 		}
 
 		function putRecord(item) {
-			var obj = {};
-			obj._id = item._id;
-			obj.codice = item.codice;
-			obj.nome = item.nome;
+			var obj = createParam(item);
 			
-			dataFactory.basePut('params/lauree', item._id, obj).then(function (data) {
-				getPage();
+			dataFactory.basePut('params/' + vm.param, obj._id, obj).then(function (data) {
+				delete item.edit;
 				toastr.success('record updated');
 			});
 		}
 
 		function deleteRecord(item) {
 			var index = vm.elenco.indexOf(item);
-			dataFactory.baseDelete('params/lauree', item._id).then(function (data) {
+			dataFactory.baseDelete('params/' + vm.param, item._id).then(function (data) {
 				vm.elenco.splice(index, 1);
+				vm.numRecords--;
 				toastr.success('record deleted');
 			});
 		}
 		
 		function deleteConfirm(item) {
-			var strConfirm = 'Laurea ' + item.codice + ' - ' + item.nome;
+			var strConfirm = item.nome;
 			
 			var modalInstance = $modal.open({
 				templateUrl: 'app/common/modalConfirm.html',
@@ -118,7 +106,6 @@
 		}
 		
 		function edit(item) {
-			console.log('edit');
 			item.edit = true;
 		}
 		
@@ -136,9 +123,17 @@
 			vm.elenco.push({edit: true});
 		}
 		
-		//-----------------
-		// Azioni su Componenti
-
-
+		function createParam(obj) {
+			var item = {};
+			
+			for(var prop in obj) {
+				if(prop!='edit') {
+					item[prop] = obj[prop];
+				}
+			}
+			
+			return item;
+		}
+		
 	}	
 })();

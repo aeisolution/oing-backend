@@ -1,4 +1,4 @@
-// app/ordine/commissione/controller.js
+// app/parma/paramCtrl.js.js
 
 (function () {
 	'use strict';
@@ -7,10 +7,9 @@
 
 	function categoriaNewsCtrl(dataFactory, $modal, toastr) {
 		var vm = this;
-		vm.title = 'Categorie News';
-		vm.view = 'elenco';
+		vm.title = 'Categoria News';
 		vm.elenco = [];
-		vm.componente = {};
+		vm.param = 'categorieNews';		//**** impostare nome parametro (plurale prima parola)
 		
 		vm.page = 1;
 		vm.numRecords = 0;
@@ -34,33 +33,26 @@
 		// METODI 
 		//****************************************************
 		function getPage() {
-			dataFactory.baseGetPage('params/categorieNews', vm.page).then(function (data) {
+			dataFactory.baseGetPage('params/' + vm.param, vm.page).then(function (data) {
 				vm.elenco = data.data;
 			});
 		}
 
 		function count() {
-			dataFactory.baseCount('params/categorieNews').then(function (data) {
+			dataFactory.baseCount('params/' + vm.param).then(function (data) {
 				vm.numRecords = data.data;
 			});
 		}
 
-
-		function getByFilter(filter) {
-			dataFactory.baseGetAllByFilter('params/categorieNews', filter).then(function (data) {
-				vm.elenco = data.data;
-			});
-		}
-		
 		function postRecord(item) {
 			var index = vm.elenco.indexOf(item);
-			var obj = {};
-			obj.nome = item.nome;
+			var obj = createParam(item);
 			
-			dataFactory.basePost('params/categorieNews',obj)
+			dataFactory.basePost('params/' + vm.param, obj)
 				.then(
 					function (data) {
-						getPage();
+						vm.elenco[index] = data.data;
+						vm.numRecords++;
 						toastr.success('record saved');
 					}, 
 					function (err) {
@@ -70,20 +62,19 @@
 		}
 
 		function putRecord(item) {
-			var obj = {};
-			obj._id = item._id;
-			obj.nome = item.nome;
+			var obj = createParam(item);
 			
-			dataFactory.basePut('params/categorieNews', item._id, obj).then(function (data) {
-				getPage();
+			dataFactory.basePut('params/' + vm.param, obj._id, obj).then(function (data) {
+				delete item.edit;
 				toastr.success('record updated');
 			});
 		}
 
 		function deleteRecord(item) {
 			var index = vm.elenco.indexOf(item);
-			dataFactory.baseDelete('params/categorieNews', item._id).then(function (data) {
+			dataFactory.baseDelete('params/' + vm.param, item._id).then(function (data) {
 				vm.elenco.splice(index, 1);
+				vm.numRecords--;
 				toastr.success('record deleted');
 			});
 		}
@@ -132,9 +123,17 @@
 			vm.elenco.push({edit: true});
 		}
 		
-		//-----------------
-		// Azioni su Componenti
-
-
+		function createParam(obj) {
+			var item = {};
+			
+			for(var prop in obj) {
+				if(prop!='edit') {
+					item[prop] = obj[prop];
+				}
+			}
+			
+			return item;
+		}
+		
 	}	
 })();
