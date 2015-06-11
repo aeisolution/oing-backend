@@ -15,17 +15,17 @@
 								<table class="table table-bordered table-hover table-striped">
 										<thead>
 												<tr>
-														<th>Periodo</th>
-														<th>Nomina</th>
-														<th>Insediamento</th>
+														<th>Codice</th>
+														<th>Presidente</th>
+														<th>Segretario</th>
 														<th>Azioni</th>
 												</tr>
 										</thead>
 										<tbody>
 												<tr ng-repeat="cons in vm.elenco">
-													<td>{{ cons.periodo.inizio }} - {{ cons.periodo.fine }}</td>
-													<td>{{ cons.elezione | date : 'dd-MM-yyyy' }}</td>
-													<td>{{ cons.insediamento | date : 'dd-MM-yyyy'}}</td>
+													<td>{{ cons._id }}</td>
+													<td>{{ cons.presidente }} - {{ cons.presidenteAnag }}</td>
+													<td>{{ cons.segretario }} - {{ cons.segretarioAnag }}</td>
 													<td>
 														<button ng-click="vm.select(cons)" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></button> 
 														<button ng-click="vm.delete(cons)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 

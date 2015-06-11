@@ -23,60 +23,38 @@
 			return $http.post(urlBase + '/profilo/' + username, obj);
 		}; 
 		
-		// --- COMMISSIONI -----
-		_Factory.getCommissioni = function() {
-			return $http.get(urlBase + '/commissioni');
-		}; 
-
-		_Factory.getCommissione = function(id) {
-			return $http.get(urlBase + '/commissioni/' + id);
-		}; 
-		
-		_Factory.postCommissione = function(obj) {
-			return $http.post(urlBase + '/commissioni', obj);
+		// --------------------------------------------------
+		// --- ALBO -----
+		// Restituisce lista di soli campi base di anagrafica 
+		// a partire da array di ID
+		_Factory.alboGetList = function(list) {
+			var obj = {};
+			obj.list = list;
+			
+			return $http.post(urlBase + '/albo/anag', obj);
+		};
+	
+		// --------------------------------------------------
+		// --- Consiglio Territoriale -----
+		_Factory.consiglioTConsigliereAdd = function(consiglioId, ingegnereId) {
+			return $http.post(urlBase + '/consigli/territorio/' + consiglioId + '/cons/' + ingegnereId,{});
 		};
 
-		_Factory.putCommissione = function(id, obj) {
-			return $http.put(urlBase + '/commissioni/' + id, obj);
-		};
-
-		_Factory.deleteCommissione = function(id) {
-			return $http.delete(urlBase + '/commissioni/' + id);
-		};
-		
-		_Factory.postComponente = function(id, obj) {
-			return $http.post(urlBase + '/commissioni/' + id + '/componente', obj);
-		};
-
-		_Factory.deleteComponente = function(id, sezione, numero) {
-			return $http.delete(urlBase + '/commissioni/' + id + '/componente/' + sezione + '/' + numero);
-		};
-
-		//Consiglieri Territorio e Disciplina
-		_Factory.postConsigliereT = function(id, obj) {
-			return $http.post(urlBase + '/consiglio/territorio/' + id + '/componente', obj);
-		};
-
-		_Factory.deleteConsigliereT = function(id, sezione, numero) {
-			return $http.delete(urlBase + '/consiglio/territorio/' + id + '/componente/' + sezione + '/' + numero);
+		_Factory.consiglioTConsigliereDelete = function(consiglioId, ingegnereId) {
+			return $http.delete(urlBase + '/consigli/territorio/' + consiglioId + '/cons/' + ingegnereId);
 		};
 		
-		_Factory.postConsigliereD = function(id, obj) {
-			return $http.post(urlBase + '/consiglio/disciplina/' + id + '/componente', obj);
+		_Factory.consiglioTRuoliUpdate = function(consiglioId, presidente, vicepresidente, segretario, tesoriere, consulta) {
+			var obj = {};
+			obj.presidente = presidente;
+			obj.vicepresidente = vicepresidente;
+			obj.segretario = segretario;
+			obj.tesoriere = tesoriere;
+			obj.consulta = consulta;
+			return $http.put(urlBase + '/consigli/territorio/' + consiglioId + '/ruoli', obj);
 		};
 
-		_Factory.deleteConsigliereD = function(id, sezione, numero) {
-			return $http.delete(urlBase + '/consiglio/disciplina/' + id + '/componente/' + sezione + '/' + numero);
-		};
-
-		//Collegio
-		_Factory.postCollegio = function(id, obj) {
-			return $http.post(urlBase + '/consiglio/disciplina/' + id + '/collegio', obj);
-		};
-
-		_Factory.deleteCollegio = function(id, numero) {
-			return $http.delete(urlBase + '/consiglio/disciplina/' + id + '/collegio/' + numero);
-		};
+		
 		
 		//*************************************************
 		// Metodi per API Base
