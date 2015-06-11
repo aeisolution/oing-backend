@@ -33,6 +33,12 @@
 					access: {
 						requiredLogin: true
 					}				
+				}).when('/trasparenza', {
+					templateUrl: '/app/trasparenza/trasparenzaMain.html',
+					controller: 'trasparenzaCtrl as vm',
+					access: {
+						requiredLogin: true
+					}				
 				// Ordine *****************************************
 				}).when('/ordine/commissioni', {
 					templateUrl: '/app/commissione/commissioneMain.html',
