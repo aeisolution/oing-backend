@@ -1,6 +1,6 @@
 <div class="panel panel-default">
 		<div class="panel-heading">
-				<i class="fa fa-bar-chart-o fa-fw"></i> Consiglio <b>{{ vm.record.periodo.inizio }} - {{ vm.record.periodo.fine }}</b>
+				<i class="fa fa-bar-chart-o fa-fw"></i> Consiglio <b>{{ vm.record.codice }}</b>
 				<div class="pull-right">
 						<div class="btn-group">
 							<button class="btn btn-default btn-xs" ng-click="vm.switchView('elenco')">elenco</button>
@@ -16,162 +16,161 @@
 									<i class="fa fa-file-o"></i> Scheda
 								</tab-heading>
 								<form name="recordForm" role="form" class="col-xs-12" novalidate>
-									<h5>Periodo del Mandato</h5>
-									<div class="form-group col-sm-6">
-											<label class="control-label">Anno inizio</label>
-											<input name="inizio" ng-model="vm.record.periodo.inizio" class="form-control" type="number" required>
+									<div class="form-group">
+											<label class="control-label">Codice</label>
+											<input name="inizio" ng-model="vm.record._id" class="form-control" type="text" required>
+										<p class="help-block">Come codice inserire Anno di inizio e anno di fine mandato separati da "-" (es. 2013-2017), non modificabile dopo primo salvataggio.</p>
 									</div>
-									<div class="form-group col-sm-6">
-											<label>Anno Fine</label>
-											<input name="fine" ng-model="vm.record.periodo.fine" class="form-control" type="number" required>
+									<div class="form-group">
+											<label class="checkbox-inline">
+													<input ng-model="vm.record.inCarica" type="checkbox"> attualmente in Carica
+											</label>
+									</div>									
+									<div class="form-group">
+											<label>Descrizione</label>
+											<textarea ng-model="vm.record.descrizione" class="form-control" rows="4"></textarea>
 									</div>
-									<hr class="divider clearfix" />
-									<div class="form-group col-sm-6">
-											<label>Data di nomina</label>
-											<div class="input-group">
-												<input type="date" class="form-control" datepicker-popup ng-model="vm.record.nominaStr" is-open="vm.opened['nomina']" close-text="Close" />
-												<span class="input-group-btn">
-													<button type="button" class="btn btn-default" ng-click="vm.open('nomina',$event)"><i class="glyphicon glyphicon-calendar"></i></button>
-												</span>
-											</div>
-									</div>
-									<div class="form-group col-sm-6">
-											<label>Data di insediamento</label>
-											<div class="input-group">
-												<input type="date" class="form-control" datepicker-popup ng-model="vm.record.insediamentoStr" is-open="vm.opened['insediamento']" close-text="Close" />
-												<span class="input-group-btn">
-													<button type="button" class="btn btn-default" ng-click="vm.open('insediamento',$event)"><i class="glyphicon glyphicon-calendar"></i></button>
-												</span>
-											</div>
-									</div>
-									<hr class="divider clearfix"></hr>
 									<div class="form-group">
 											<label>Note</label>
 											<textarea ng-model="vm.record.note" class="form-control" rows="3"></textarea>
+										<p class="help-block">Campo note visibile solo internamente su back-office.</p>
 									</div>
-
-									<button ng-disabled="recordForm.$pristine || recordForm.$invalid" ng-click="vm.save()" type="submit" class="btn btn-success">Salva</button>
-									<button type="reset" class="btn btn-default">Annulla</button>
+									<div class="form-group col-xs-12">
+											<label class="checkbox-inline">
+													<input ng-model="vm.record.published" type="checkbox"> Pubblico
+											</label>
+									</div>
+									<button ng-click="vm.save()" type="submit" class="btn btn-success">Salva</button>
 								</form>
 
 							</tab>
 							<tab>
 								<tab-heading>
-									<i class="fa fa-users"></i> Consiglieri <span class="badge" ng-if="vm.record.componenti.length>0">{{ vm.record.componenti.length }}</span>
+									<i class="fa fa-users"></i> Consiglieri <span class="badge" ng-if="vm.componenti.length>0">{{ vm.consiglieri.length }}</span>
 								</tab-heading>
-								<hr class="clearfix" />
 								<div class="col-xs-12">
-									<div class="panel panel-default" >
-										<button class="btn btn-default" ng-click="vm.add1IsCollapsed = !vm.add1IsCollapsed"><i class="fa fa-plus-circle"></i> </button>
-										<form class="panel-body" collapse="vm.add1IsCollapsed">
-										<div class="form-group col-md-6">
-											<label>Nominativo</label>
-											<input ng-model="vm.componente.nominativo" class="form-control">
-										</div>
-										<div class="form-group col-md-6">
-											<label>ruolo</label>
-											<select ng-model="vm.componente.ruolo" class="form-control">
-												<option ng-repeat="r in vm.ruoli | orderBy: 'nome'">{{ r.nome }}</option>
-											</select>											
-										</div>	
-										<div class="form-group col-sm-6">
-											<label>Sezione</label>
-											<select ng-model="vm.componente.sezione" class="form-control">
-												<option>A</option>
-												<option>B</option>
-											</select>											
-										</div>
-										<div class="form-group col-sm-6">
-											<label>Numero</label>
-											<input ng-model="vm.componente.numero" class="form-control">
-										</div>
-										<div class="form-group col-xs-12">
-											<button ng-click="vm.componenteAdd()" class="btn btn-default">Aggiungi</button>
-										</div>
-									</form>										
+									<h4 class="title text-primary">Cariche istituzionali</h4>
+								</div>
+								<div class="col-xs-12">
+									<div class="form-group col-md-6">
+										<label>Presidente</label>
+										<select ng-model="vm.record.presidente" ng-options="c._id as c.nominativo for c in vm.consiglieri | orderBy: 'cognome' " class="form-control">
+											<option value="">-- seleziona --</option>
+										</select>
+									</div>
+									<div class="form-group col-md-6">
+										<label>Segretario</label>
+										<select ng-model="vm.record.segretario" ng-options="c._id as c.nominativo for c in vm.consiglieri | orderBy: 'cognome' " class="form-control">
+											<option value="">-- seleziona --</option>
+										</select>
+									</div>
+									<div class="form-group col-md-12">
+										<button ng-click="vm.ruoliUpdate()" type="submit" class="btn btn-success">Salva</button>
 									</div>
 								</div>
-									
+								<hr class="divider clearfix" />
+								<div class="col-xs-12">
+									<h4 class="title text-primary">Consiglieri</h4>
+								</div>
+								<div class="col-xs-12">
+									<div class="panel panel-default" >
+										<form class="panel-body">
+										<div class="form-group">
+											<div class="input-group">
+												<input ng-model="vm.newConsigliere.id" class="form-control" placeholder="A0000">
+												<span class="input-group-btn">
+											<button ng-click="vm.consigliereCheck()" class="btn btn-default">Check</button>
+											<button ng-click="vm.consigliereAdd()" class="btn btn-success">Aggiungi</button>
+												</span>
+											</div><!-- /input-group -->											
+											<p class="help-block">Inserire sezione e numero di iscrizione (es. A1602).</p>
+										</div>
+										<div class="form-group">
+											<label class="control-label">Nominativo</label>
+											<input name="inizio" ng-model="vm.newConsigliere.nominativo" class="form-control" type="text" disabled>
+										</div>
+									</form>
+									</div>
+								</div>
 										<div class="table-responsive col-xs-12">
-													<table class="table table-bordered table-hover table-striped">
-															<thead>
-																	<tr>
-																			<th>Nominativo</th>
-																			<th>Albo</th>
-																			<th>Ruolo</th>
-																			<th>Azioni</th>
-																	</tr>
-															</thead>
-															<tbody>
-																	<tr ng-repeat="comp in vm.record.componenti | orderBy: 'nominativo'">
-																		<td>{{ comp.nominativo }}</td>
-																		<td>{{ comp.numero }}/{{ comp.sezione }}</td>
-																		<td>{{ comp.ruolo }}</td>
-																		<td>
-																			<button ng-click="vm.componenteDelete(comp)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
-																		</td>
-																	</tr>
-															</tbody>
-													</table>
+											<table class="table table-bordered table-hover table-striped">
+													<thead>
+															<tr>
+																	<th>Consigliere</th>
+																	<th>Albo</th>
+																	<th>Azioni</th>
+															</tr>
+													</thead>
+													<tbody>
+															<tr ng-repeat="comp in vm.consiglieri | orderBy: 'cognome'">
+																<td>{{ comp.cognome }} {{ comp.nome }}</td>
+																<td>{{ comp._id }}</td>
+																<td>
+																	<button ng-click="vm.consigliereDelete(comp)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+																</td>
+															</tr>
+													</tbody>
+											</table>
 
 										</div>
 											<!-- /.table-responsive -->
 							</tab>
 							<tab>
 								<tab-heading>
-									<i class="fa fa-sitemap"></i> Collegi <span class="badge" ng-if="vm.record.collegi.length>0">{{ vm.record.collegi.length }}</span>
+									<i class="fa fa-calendar"></i> Eventi <span class="badge" ng-if="vm.record.eventi.length>0">{{ vm.record.eventi.length }}</span>
 								</tab-heading>
 								<div class="col-xs-12">
+									<h4 class="title text-primary">Elezione, insediamento ed altre date.. </h4>
+								</div>
+								<div class="col-xs-12">
 									<div class="panel panel-default" >
-										<button class="btn btn-default" ng-click="vm.add2IsCollapsed = !vm.add2IsCollapsed"><i class="fa fa-plus-circle"></i> </button>
-										<form class="panel-body" collapse="vm.add2IsCollapsed">
-										<div class="form-group col-md-3">
-											<label>Numero</label>
-											<input ng-model="vm.collegio.numero" class="form-control" type="number" required>
-										</div>
-										<div class="form-group col-md-9">
-											<label>Presidente</label>
-											<input ng-model="vm.collegio.presidente" class="form-control" type="text" required>
-										</div>	
-										<div class="form-group col-md-6">
-											<label>Segretario</label>
-											<input ng-model="vm.collegio.segretario" class="form-control" type="text" required>
-										</div>	
-										<div class="form-group col-md-6">
-											<label>Consigliere</label>
-											<input ng-model="vm.collegio.consigliere" class="form-control" type="text" required>
-										</div>	
-										<div class="form-group col-xs-12">
-											<button ng-click="vm.collegioAdd()" class="btn btn-default">Aggiungi</button>
-										</div>
-									</form>										
+										<form class="panel-body">
+											<div class="form-group col-md-6">
+												<label>data</label>
+												<div class="input-group">
+													<input type="date" class="form-control" datepicker-popup ng-model="vm.newEvent.data" is-open="vm.opened['newEvent']" close-text="Close" />
+													<span class="input-group-btn">
+														<button type="button" class="btn btn-default" ng-click="vm.open('newEvent',$event)"><i class="glyphicon glyphicon-calendar"></i></button>
+													</span>
+												</div>											
+											</div>	
+											<div class="form-group col-md-6">
+												<label>Evento</label>
+												<select ng-model="vm.newEvent.categoria" ng-options="event.nome as event.nome for event in vm.categorie | orderBy: 'nome' " class="form-control">
+													<option value="">-- seleziona --</option>
+												</select>
+											</div>
+											<div class="form-group col-md-12">
+												<label>Note</label>
+												<textarea ng-model="vm.newEvent.note" class="form-control" rows="3"></textarea>
+											</div>
+											<div class="form-group col-md-12">
+												<button ng-click="vm.eventoAdd(vm.newEvent)" type="submit" class="btn btn-success">Aggiungi</button>
+											</div>
+										</form>
 									</div>
 								</div>
-								
-									
 										<div class="table-responsive col-xs-12">
-													<table class="table table-bordered table-hover table-striped">
-															<thead>
-																	<tr>
-																			<th>Numero</th>
-																			<th>Presidente</th>
-																			<th>Segretario</th>
-																			<th>Consigliere</th>
-																			<th>Azioni</th>
-																	</tr>
-															</thead>
-															<tbody>
-																	<tr ng-repeat="collegio in vm.record.collegi | orderBy: 'numero'">
-																		<td>{{ collegio.numero }}</td>
-																		<td>{{ collegio.presidente }}</td>
-																		<td>{{ collegio.segretario }}</td>
-																		<td>{{ collegio.consigliere }}</td>																		
-																		<td>
-																			<button ng-click="vm.collegioDelete(collegio)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
-																		</td>
-																	</tr>
-															</tbody>
-													</table>
+											<table class="table table-bordered table-hover table-striped">
+													<thead>
+															<tr>
+																	<th>Data</th>
+																	<th>Evento</th>
+																	<th>Note</th>
+																	<th>Azioni</th>
+															</tr>
+													</thead>
+													<tbody>
+															<tr ng-repeat="event in vm.record.eventi | orderBy: 'Data'">
+																<td>{{ event.data | date: 'dd-MM-yyyy' }}</td>
+																<td>{{ event.categoria }}</td>
+																<td>{{ event.note }}</td>
+																<td>
+																	<button ng-click="vm.eventoDelete(event)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+																</td>
+															</tr>
+													</tbody>
+											</table>
 
 										</div>
 											<!-- /.table-responsive -->

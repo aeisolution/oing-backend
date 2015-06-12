@@ -64,6 +64,12 @@
 		};
 		
 		// --- Consiglio solo Disciplina -----
+		_Factory.consiglioDRuoliUpdate = function(consiglioId, presidente, segretario) {
+			var obj = {};
+			obj.presidente = presidente;
+			obj.segretario = segretario;
+			return $http.put(urlBase + '/consigli/disciplina/' + consiglioId + '/ruoli', obj);
+		};
 
 		
 		

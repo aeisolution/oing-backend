@@ -7,21 +7,18 @@
 
 	function consiglioDCtrl(dataFactory, $filter, $modal, toastr) {
 		var vm = this;
-		vm.title = 'Consiglio di Disciplina';
+		vm.title = 'Consiglio di Disciplina ';
 		vm.view = 'elenco';
 		vm.elenco = [];
 		vm.record = {};
-		vm.componente = {};
-		vm.collegio = {};
+		vm.newRecord = false;
+
+		vm.consiglieri = [];
+		vm.categorie = [];
 		
-		vm.ruoli = [];
-		
-		vm.add1IsCollapsed = true;
-		vm.add2IsCollapsed = true;
 		
 		vm.opened = {
-			nomina: false,
-			insediamento: false
+			newEvent: false
 		};
 		vm.open = function(elem, $event) {
     	$event.preventDefault();
@@ -38,48 +35,95 @@
 		vm.select = select;
 		vm.switchView = switchView;
 		
-		vm.componenteAdd = componenteAdd;
-		vm.componenteDelete = componenteDelete;
-
-		vm.collegioAdd = collegioAdd;
-		vm.collegioDelete = collegioDelete;
-
+		vm.getAlboAnag = getAlboAnag;
 		
+		//Azioni Ruoli
+		vm.ruoliUpdate = ruoliUpdate;
+		
+		//Azioni su Consiglieri
+		vm.consigliereCheck = consigliereCheck;		
+		vm.consigliereAdd = consigliereAdd;
+		vm.consigliereDelete = consigliereDelete;
+
+		//Azioni su Eventi
+		vm.eventoAdd = eventoAdd;
+		vm.eventoDelete = eventoDelete;
 
 		//ACTIVATE *****************************************
+		getCategorie();
 		getElenco();
-		getRuoli();
 
 		//****************************************************
 		// METODI 
 		//****************************************************
-		function getRuoli() {
-			dataFactory.baseGetAll('params/ruoloConsiglio').then(function (data) {
-				vm.ruoli = data.data;
+		function getElenco() {
+			dataFactory.baseGetAll('consigli/disciplina').then(function (data) {
+				vm.elenco = data.data;
+				syncElencoAnag();
 			});
 		}
-
-		function getElenco() {
-			dataFactory.baseGetAll('consiglio/disciplina').then(function (data) {
-				vm.elenco = data.data;
+		
+		function getCategorie() {
+			dataFactory.baseGetAll('params/categorieEvento').then(function (data) {
+				vm.categorie = data.data;
 			});
 		}
 		
 		function getRecord(id) {
-			return dataFactory.baseGetById('consiglio/disciplina', id).then(function (data) {
+			return dataFactory.baseGetById('consigli/disciplina', id).then(function (data) {
 				vm.record = data.data;
 				
-				setR_DateToStr(vm.record);
+				vm.newRecord = false;
+				getConsiglieri(vm.record.consiglieri);
+				//setR_DateToStr(vm.record);
+			});
+		}
+		
+		function syncElencoAnag() {
+			for(var i=0,len= vm.elenco.length;i<len;i++) {
+				var item = {};
+				item = vm.elenco[i];
+
+				presidenteAnag(vm.elenco[i]);
+				segretarioAnag(vm.elenco[i]);
+			}
+		}
+		
+		function presidenteAnag(item) {
+			var obj = item;
+			if(obj.presidente) {
+					getAlboAnag(obj.presidente).then(function(data) {
+						obj.presidenteAnag = data.cognome + ' ' + data.nome;
+					});
+				}
+		}
+
+		function segretarioAnag(item) {
+			var obj = item;
+				if(obj.segretario) {
+					getAlboAnag(obj.segretario).then(function(data) {
+						obj.segretarioAnag = data.cognome + ' ' + data.nome;
+					});
+				}
+		}
+		
+		function getAlboAnag(id, result) {
+			var obj = result;
+			return dataFactory.baseGetById('albo', id + '/anag')
+				.then(function (data) {
+					obj = data.data;
+					return obj;
 			});
 		}
 
 		function postRecord() {
-			setR_StrToDate(vm.record);
+			//setR_StrToDate(vm.record);
 
-			dataFactory.basePost('consiglio/disciplina',vm.record)
+			dataFactory.basePost('consigli/disciplina',vm.record)
 				.then(
 					function (data) {
 						vm.elenco.push(data.data);
+						vm.newRecord = false;
 						toastr.success('record saved');
 					}, 
 					function (err) {
@@ -90,23 +134,23 @@
 		}
 
 		function putRecord() {
-			setR_StrToDate(vm.record);
+			//setR_StrToDate(vm.record);
 
-			dataFactory.basePut('consiglio/disciplina', vm.record._id, vm.record).then(function (data) {
+			dataFactory.basePut('consigli/disciplina', vm.record._id, vm.record).then(function (data) {
 				toastr.success('record updated');
 			});
 		}
 
 		function deleteRecord(item) {
 			var index = vm.elenco.indexOf(item);
-			dataFactory.baseDelete('consiglio/disciplina', item._id).then(function (data) {
+			dataFactory.baseDelete('consigli/disciplina', item._id).then(function (data) {
 				vm.elenco.splice(index, 1);
 				toastr.success('record deleted');
 			});
 		}
 		
 		function deleteConfirm(item) {
-			var strConfirm = 'Consiglio Territoriale ' + item.periodo.inizio + '-' + item.periodo.fine;
+			var strConfirm = 'Consiglio Territoriale ' + item._id;
 			
 			var modalInstance = $modal.open({
 				templateUrl: 'app/common/modalConfirm.html',
@@ -127,7 +171,7 @@
 		}
 		
 		function save() {
-			if(!vm.record._id) postRecord();
+			if(vm.newRecord === true) postRecord();
 			else putRecord();
 		}
 		
@@ -137,69 +181,95 @@
 		
 		function select(item) {
 			getRecord(item._id).then(function(){
+				vm.newRecord = false;
 				switchView('record');	
 			});
 		}
 
 		function createNew() {
 			vm.record = {};
-			componenteReset();
+			vm.consiglieri = [];
+			vm.newRecord = true;
+			//componenteReset();
 			switchView('record');
 		}
 		
+
 		//-----------------
-		// Metodi per date
-		function setR_StrToDate() {
-			// consiglio.nomina
-			if(vm.record.nominaStr) vm.record.nomina = new Date(vm.record.nominaStr);
-			else if(data) vm.record.nomina = null;
-
-			// consiglio.insediamento
-			if(vm.record.insediamentoStr) vm.record.insediamento = new Date(vm.record.insediamentoStr);
-			else if(data) vm.record.insediamento = null;
-		}
-		
-		function setR_DateToStr() {
-			var strDate = '';
-			// consiglio.nomina
-			if(vm.record.nomina) { 
-				strDate = $filter('date')(vm.record.nomina, 'yyyy-MM-dd', '+02:00');
-				vm.record.nominaStr = new Date(strDate);
-			}
-			else {
-				vm.record.nominaStr = '';
-			}
-
-			// consiglio.insediamento
-			if(vm.record.insediamento) { 
-				strDate = $filter('date')(vm.record.insediamento, 'yyyy-MM-dd', '+02:00');
-				vm.record.insediamentoStr = new Date(strDate);
-			}
-			else {
-				vm.record.insediamentoStr = '';
-			}
-		}			
-		
+		// RUOLI
+		function ruoliUpdate() {
+			dataFactory.consiglioDRuoliUpdate(vm.record._id, 
+																				vm.record.presidente, 
+																				vm.record.segretario)
+				.then(function (data) {
+					toastr.success('record updated');
+			});
+		}		
 		
 		//-----------------
-		// Azioni
-		function componenteReset() {
-			vm.componente = {};
+		// CONSIGLIERI 
+		function getConsiglieri(list) {
+			vm.consiglieri = [];
+			if(!list || list.length==0) { return; }
+			
+			return dataFactory.alboGetList(list)
+				.then(function(data){
+					vm.consiglieri = data.data;				
+				
+					for(var i=0,len=vm.consiglieri.length;i<len;i++) {
+						vm.consiglieri[i].nominativo = getConsigliereNominativo(vm.consiglieri[i]);
+					}
+			});
+		}
+
+		function getConsigliereNominativo(cons) {
+			if(!cons) { return; }
+			
+			return cons._id + ' - ' + cons.cognome + ' ' + cons.nome;
 		}
 		
-		function componenteAdd() {
-			dataFactory.postConsigliereD(vm.record._id, vm.componente).then(function (data) {
-				vm.record.componenti.push(vm.componente);
-				componenteReset();
+		function newConsigliereReset() {
+			vm.newConsigliere = {};
+		}
+
+		function consigliereCheck() {
+			if(!vm.newConsigliere.id) {
+				return;
+			}
+			getAlboAnag(vm.newConsigliere.id)
+				.then(function(data){
+					if(!data) {
+						vm.newConsigliere.nominativo = '';
+					} else {
+						vm.newConsigliere.nominativo = data.cognome + ' ' + data.nome;
+					}
+			});
+			
+		}
+		
+		function consigliereAdd() {
+			dataFactory.consiglioConsigliereAdd('disciplina', vm.record._id, vm.newConsigliere.id)
+				.then(function (data) {
+					getAlboAnag(vm.newConsigliere.id)
+						.then(function(data){
+							var cons = {};
+							
+							if(data) { 
+								cons = data; 
+								cons.nominativo = vm.newConsigliere.id + ' - ' + data.cognome + ' ' + data.nome;
+							}
+							cons._id = vm.newConsigliere.id;
+
+							vm.consiglieri.push(cons);
+							newConsigliereReset();
+					});
 			});			
 		}
 		
-		function componenteDelete(item) {
-			var sezione = item.sezione,
-					numero 	= item.numero,
-					index		= vm.record.componenti.indexOf(item);
+		function consigliereDelete(item) {
+			var index = vm.consiglieri.indexOf(item);
 			
-			var strConfirm = item.nominativo + ' ' + item.ruolo;
+			var strConfirm = item.nominativo;
 			
 			var modalInstance = $modal.open({
 				templateUrl: 'app/common/modalConfirm.html',
@@ -214,30 +284,38 @@
 			modalInstance.result
 				.then(
 					function () { 
-						dataFactory.deleteConsigliereD(vm.record._id, sezione, numero).then(function (data) {
-							vm.record.componenti.splice(index, 1);
+						dataFactory.consiglioConsigliereDelete('disciplina', vm.record._id, item._id)
+							.then(function (data) {
+							vm.consiglieri.splice(index, 1);
 						});
 					});
 		}
 
-		//Collegio
-		function collegioReset() {
-			vm.collegio = {};
+		//-----------------
+		// EVENTI 
+		function newEventoReset() {
+			vm.newEvento = {};
 		}
 		
-		function collegioAdd() {
-			dataFactory.postCollegio(vm.record._id, vm.collegio).then(function (data) {
-				vm.record.collegi.push(vm.collegio);
-				componenteReset();
+		function eventoAdd(item) {
+			var newObj = {};
+			newObj.data = convertStrToDate(item.data);
+			newObj.categoria = item.categoria;
+			newObj.note = item.note;
+			
+			dataFactory.consiglioEventoAdd('disciplina', vm.record._id, newObj)
+				.then(function (data) {
+					console.log(data);
+					newObj._id = data.data;
+					vm.record.eventi.push(newObj);
+					newEventoReset();			
 			});			
 		}
 		
-		function collegioDelete(item) {
-			var numero 	= item.numero;
-					index		= vm.record.componenti.indexOf(item);
+		function eventoDelete(item) {
+			var index = vm.record.eventi.indexOf(item);
 			
-			
-			var strConfirm = 'Collegio N. ' + item.numero;
+			var strConfirm = item.data + ' ' + item.categoria;
 			
 			var modalInstance = $modal.open({
 				templateUrl: 'app/common/modalConfirm.html',
@@ -252,12 +330,23 @@
 			modalInstance.result
 				.then(
 					function () { 
-						dataFactory.deleteCollegio(vm.record._id, numero).then(function (data) {
-							vm.record.collegi.splice(index, 1);
+						dataFactory.consiglioEventoDelete('disciplina', vm.record._id, item._id)
+							.then(function (data) {
+							vm.record.eventi.splice(index, 1);
 						});
-					});			
+					});
 		}
 		
-		
+		//-----------------
+		// Metodi per date
+		function convertStrToDate(str) {
+			var resultDate = null;
+
+			if(str) {
+				resultDate = new Date(str);
+			}
+			return resultDate;
+		}		
+
 	}	
 })();
