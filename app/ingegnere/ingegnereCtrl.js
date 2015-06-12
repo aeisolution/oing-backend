@@ -17,7 +17,6 @@
 		vm.lauree = [];
 		
 		vm.filter = null;
-		vm.fields =  'nome=1&cognome=1&codiceFiscale=1&albo.numero=1&albo.sezione=1&albo.iscrizione.stato=1';
 		
 		vm.checkSettori = {};
 		
@@ -61,20 +60,20 @@
 		}
 		
 		function getPage() {
-			dataFactory.baseGetPage('ingegneri', vm.page).then(function (data) {
+			dataFactory.baseGetPage('albo', vm.page).then(function (data) {
 				vm.elenco = data.data;
 			});
 		}
 
 		function count() {
-			dataFactory.baseCount('ingegneri').then(function (data) {
+			dataFactory.baseCount('albo').then(function (data) {
 				vm.numRecords = data.data;
 			});
 		}
 		
 
 		function getRecord(id) {
-			return dataFactory.baseGetById('ingegneri', id).then(function (data) {
+			return dataFactory.baseGetById('albo', id).then(function (data) {
 				vm.record = data.data;
 				
 				setR_DateToStr(vm.record);
@@ -86,7 +85,7 @@
 		function postRecord() {
 			setR_StrToDate(vm.record);
 			
-			dataFactory.basePost('ingegneri',vm.record)
+			dataFactory.basePost('albo',vm.record)
 				.then(
 					function (data) {
 						vm.elenco.push(data.data);
@@ -101,7 +100,7 @@
 		function putRecord() {
 			setR_StrToDate(vm.record);
 
-			dataFactory.basePut('ingegneri', vm.record._id, vm.record).then(function (data) {
+			dataFactory.basePut('albo', vm.record._id, vm.record).then(function (data) {
 				toastr.success('record updated');
 			});
 		}
@@ -140,7 +139,7 @@
 		
 		function deleteRecord(item) {
 			var index = vm.elenco.indexOf(item);
-			dataFactory.baseDelete('ingegneri', item._id).then(function (data) {
+			dataFactory.baseDelete('albo', item._id).then(function (data) {
 				vm.elenco.splice(index, 1);
 				toastr.success('record deleted');
 			});

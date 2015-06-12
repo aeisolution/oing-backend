@@ -14,11 +14,11 @@
 		vm.newRecord = false;
 
 		vm.consiglieri = [];
+		vm.categorie = [];
 		
 		
 		vm.opened = {
-			elezione: false,
-			insediamento: false
+			newEvent: false
 		};
 		vm.open = function(elem, $event) {
     	$event.preventDefault();
@@ -45,8 +45,12 @@
 		vm.consigliereAdd = consigliereAdd;
 		vm.consigliereDelete = consigliereDelete;
 
+		//Azioni su Eventi
+		vm.eventoAdd = eventoAdd;
+		vm.eventoDelete = eventoDelete;
 
 		//ACTIVATE *****************************************
+		getCategorie();
 		getElenco();
 
 		//****************************************************
@@ -56,6 +60,12 @@
 			dataFactory.baseGetAll('consigli/territorio').then(function (data) {
 				vm.elenco = data.data;
 				syncElencoAnag();
+			});
+		}
+		
+		function getCategorie() {
+			dataFactory.baseGetAll('params/categorieEvento').then(function (data) {
+				vm.categorie = data.data;
 			});
 		}
 		
@@ -184,38 +194,6 @@
 			switchView('record');
 		}
 		
-		//-----------------
-		// Metodi per date
-		function setR_StrToDate() {
-			// consiglio.elezione
-			if(vm.record.elezioneStr) vm.record.elezione = new Date(vm.record.elezioneStr);
-			else if(data) vm.record.elezione = null;
-
-			// consiglio.insediamento
-			if(vm.record.insediamentoStr) vm.record.insediamento = new Date(vm.record.insediamentoStr);
-			else if(data) vm.record.insediamento = null;
-		}
-		
-		function setR_DateToStr() {
-			var strDate = '';
-			// consiglio.elezione
-			if(vm.record.elezione) { 
-				strDate = $filter('date')(vm.record.elezione, 'yyyy-MM-dd', '+02:00');
-				vm.record.elezioneStr = new Date(strDate);
-			}
-			else {
-				vm.record.elezioneStr = '';
-			}
-
-			// consiglio.insediamento
-			if(vm.record.insediamento) { 
-				strDate = $filter('date')(vm.record.insediamento, 'yyyy-MM-dd', '+02:00');
-				vm.record.insediamentoStr = new Date(strDate);
-			}
-			else {
-				vm.record.insediamentoStr = '';
-			}
-		}			
 
 		//-----------------
 		// RUOLI
@@ -316,6 +294,62 @@
 					});
 		}
 
+		//-----------------
+		// EVENTI 
+		function newEventoReset() {
+			vm.newEvento = {};
+		}
+		
+		function eventoAdd(item) {
+			var newObj = {};
+			newObj.data = convertStrToDate(item.data);
+			newObj.categoria = item.categoria;
+			newObj.note = item.note;
+			
+			dataFactory.consiglioTEventoAdd(vm.record._id, newObj)
+				.then(function (data) {
+					console.log(data);
+					newObj._id = data.data;
+					vm.record.eventi.push(newObj);
+					newEventoReset();			
+			});			
+		}
+		
+		function eventoDelete(item) {
+			var index = vm.record.eventi.indexOf(item);
+			
+			var strConfirm = item.data + ' ' + item.categoria;
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'app/common/modalConfirm.html',
+				controller: 'modalConfirmCtrl as vm',
+				resolve: {
+					text: function () {
+						return strConfirm;
+					}
+				}
+			});
+
+			modalInstance.result
+				.then(
+					function () { 
+						dataFactory.consiglioTEventoDelete(vm.record._id, item._id)
+							.then(function (data) {
+							vm.record.eventi.splice(index, 1);
+						});
+					});
+		}
+		
+		//-----------------
+		// Metodi per date
+		function convertStrToDate(str) {
+			var resultDate = null;
+
+			if(str) {
+				resultDate = new Date(str);
+			}
+			return resultDate;
+		}		
 
 	}	
 })();

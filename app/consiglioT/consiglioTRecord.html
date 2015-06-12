@@ -37,7 +37,7 @@
 									</div>
 									<div class="form-group col-xs-12">
 											<label class="checkbox-inline">
-													<input ng-model="vm.record.published" type="checkbox"> Pubblicata
+													<input ng-model="vm.record.published" type="checkbox"> Pubblico
 											</label>
 									</div>
 									<button ng-click="vm.save()" type="submit" class="btn btn-success">Salva</button>
@@ -46,7 +46,7 @@
 							</tab>
 							<tab>
 								<tab-heading>
-									<i class="fa fa-users"></i> Consiglieri <span class="badge" ng-if="vm.record.componenti.length>0">{{ vm.record.consiglieri.length }}</span>
+									<i class="fa fa-users"></i> Consiglieri <span class="badge" ng-if="vm.componenti.length>0">{{ vm.consiglieri.length }}</span>
 								</tab-heading>
 								<div class="col-xs-12">
 									<h4 class="title text-primary">Cariche istituzionali</h4>
@@ -133,7 +133,66 @@
 										</div>
 											<!-- /.table-responsive -->
 							</tab>
+							<tab>
+								<tab-heading>
+									<i class="fa fa-calendar"></i> Eventi <span class="badge" ng-if="vm.record.eventi.length>0">{{ vm.record.eventi.length }}</span>
+								</tab-heading>
+								<div class="col-xs-12">
+									<h4 class="title text-primary">Elezione, insediamento ed altre date.. </h4>
+								</div>
+								<div class="col-xs-12">
+									<div class="panel panel-default" >
+										<form class="panel-body">
+											<div class="form-group col-md-6">
+												<label>data</label>
+												<div class="input-group">
+													<input type="date" class="form-control" datepicker-popup ng-model="vm.newEvent.data" is-open="vm.opened['newEvent']" close-text="Close" />
+													<span class="input-group-btn">
+														<button type="button" class="btn btn-default" ng-click="vm.open('newEvent',$event)"><i class="glyphicon glyphicon-calendar"></i></button>
+													</span>
+												</div>											
+											</div>	
+											<div class="form-group col-md-6">
+												<label>Evento</label>
+												<select ng-model="vm.newEvent.categoria" ng-options="event.nome as event.nome for event in vm.categorie | orderBy: 'nome' " class="form-control">
+													<option value="">-- seleziona --</option>
+												</select>
+											</div>
+											<div class="form-group col-md-12">
+												<label>Note</label>
+												<textarea ng-model="vm.newEvent.note" class="form-control" rows="3"></textarea>
+											</div>
+											<div class="form-group col-md-12">
+												<button ng-click="vm.eventoAdd(vm.newEvent)" type="submit" class="btn btn-success">Aggiungi</button>
+											</div>
+										</form>
+									</div>
+								</div>
+										<div class="table-responsive col-xs-12">
+											<table class="table table-bordered table-hover table-striped">
+													<thead>
+															<tr>
+																	<th>Data</th>
+																	<th>Evento</th>
+																	<th>Note</th>
+																	<th>Azioni</th>
+															</tr>
+													</thead>
+													<tbody>
+															<tr ng-repeat="event in vm.record.eventi | orderBy: 'Data'">
+																<td>{{ event.data | date: 'dd-MM-yyyy' }}</td>
+																<td>{{ event.categoria }}</td>
+																<td>{{ event.note }}</td>
+																<td>
+																	<button ng-click="vm.eventoDelete(event)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+																</td>
+															</tr>
+													</tbody>
+											</table>
 
+										</div>
+											<!-- /.table-responsive -->
+							</tab>
 						</tabset>
 
 				</div>

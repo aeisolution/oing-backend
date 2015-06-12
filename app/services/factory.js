@@ -54,6 +54,13 @@
 			return $http.put(urlBase + '/consigli/territorio/' + consiglioId + '/ruoli', obj);
 		};
 
+		_Factory.consiglioTEventoAdd = function(consiglioId, evento) {
+			return $http.post(urlBase + '/consigli/territorio/' + consiglioId + '/eventi', evento);
+		};
+
+		_Factory.consiglioTEventoDelete = function(consiglioId, eventoId) {
+			return $http.delete(urlBase + '/consigli/territorio/' + consiglioId + '/eventi/' + eventoId);
+		};
 		
 		
 		//*************************************************
