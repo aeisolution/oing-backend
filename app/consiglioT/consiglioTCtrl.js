@@ -178,6 +178,7 @@
 
 		function createNew() {
 			vm.record = {};
+			vm.consiglieri = [];
 			vm.newRecord = true;
 			//componenteReset();
 			switchView('record');
@@ -233,6 +234,7 @@
 		//-----------------
 		// CONSIGLIERI 
 		function getConsiglieri(list) {
+			vm.consiglieri = [];
 			if(!list || list.length==0) { return; }
 			
 			return dataFactory.alboGetList(list)
