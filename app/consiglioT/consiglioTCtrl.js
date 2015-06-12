@@ -251,7 +251,7 @@
 		}
 		
 		function consigliereAdd() {
-			dataFactory.consiglioTConsigliereAdd(vm.record._id, vm.newConsigliere.id)
+			dataFactory.consiglioConsigliereAdd('territorio', vm.record._id, vm.newConsigliere.id)
 				.then(function (data) {
 					getAlboAnag(vm.newConsigliere.id)
 						.then(function(data){
@@ -287,7 +287,7 @@
 			modalInstance.result
 				.then(
 					function () { 
-						dataFactory.consiglioTConsigliereDelete(vm.record._id, item._id)
+						dataFactory.consiglioConsigliereDelete('territorio', vm.record._id, item._id)
 							.then(function (data) {
 							vm.consiglieri.splice(index, 1);
 						});
@@ -306,7 +306,7 @@
 			newObj.categoria = item.categoria;
 			newObj.note = item.note;
 			
-			dataFactory.consiglioTEventoAdd(vm.record._id, newObj)
+			dataFactory.consiglioEventoAdd('territorio', vm.record._id, newObj)
 				.then(function (data) {
 					console.log(data);
 					newObj._id = data.data;
@@ -333,7 +333,7 @@
 			modalInstance.result
 				.then(
 					function () { 
-						dataFactory.consiglioTEventoDelete(vm.record._id, item._id)
+						dataFactory.consiglioEventoDelete('territorio', vm.record._id, item._id)
 							.then(function (data) {
 							vm.record.eventi.splice(index, 1);
 						});

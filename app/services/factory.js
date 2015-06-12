@@ -35,15 +35,24 @@
 		};
 	
 		// --------------------------------------------------
-		// --- Consiglio Territoriale -----
-		_Factory.consiglioTConsigliereAdd = function(consiglioId, ingegnereId) {
-			return $http.post(urlBase + '/consigli/territorio/' + consiglioId + '/cons/' + ingegnereId,{});
+		// --- Consiglio Territoriale/Disciplina -----
+		_Factory.consiglioConsigliereAdd = function(tipo, consiglioId, ingegnereId) {
+			return $http.post(urlBase + '/consigli/' + tipo + '/' + consiglioId + '/cons/' + ingegnereId,{});
 		};
 
-		_Factory.consiglioTConsigliereDelete = function(consiglioId, ingegnereId) {
-			return $http.delete(urlBase + '/consigli/territorio/' + consiglioId + '/cons/' + ingegnereId);
+		_Factory.consiglioConsigliereDelete = function(tipo, consiglioId, ingegnereId) {
+			return $http.delete(urlBase + '/consigli/' + tipo + '/' + consiglioId + '/cons/' + ingegnereId);
 		};
 		
+		_Factory.consiglioEventoAdd = function(tipo, consiglioId, evento) {
+			return $http.post(urlBase + '/consigli/' + tipo + '/' + consiglioId + '/eventi', evento);
+		};
+
+		_Factory.consiglioEventoDelete = function(tipo, consiglioId, eventoId) {
+			return $http.delete(urlBase + '/consigli/' + tipo + '/' + consiglioId + '/eventi/' + eventoId);
+		};
+
+		// --- Consiglio solo Territoriale -----
 		_Factory.consiglioTRuoliUpdate = function(consiglioId, presidente, vicepresidente, segretario, tesoriere, consulta) {
 			var obj = {};
 			obj.presidente = presidente;
@@ -53,14 +62,9 @@
 			obj.consulta = consulta;
 			return $http.put(urlBase + '/consigli/territorio/' + consiglioId + '/ruoli', obj);
 		};
+		
+		// --- Consiglio solo Disciplina -----
 
-		_Factory.consiglioTEventoAdd = function(consiglioId, evento) {
-			return $http.post(urlBase + '/consigli/territorio/' + consiglioId + '/eventi', evento);
-		};
-
-		_Factory.consiglioTEventoDelete = function(consiglioId, eventoId) {
-			return $http.delete(urlBase + '/consigli/territorio/' + consiglioId + '/eventi/' + eventoId);
-		};
 		
 		
 		//*************************************************
