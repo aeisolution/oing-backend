@@ -3,31 +3,33 @@
 (function () {
 	'use strict';
 	var controllerId = 'commissioneCtrl';
-	angular.module('app').controller(controllerId, ['dataFactory', '$modal', 'toastr', commissioneCtrl]);
+	angular.module('app').controller(controllerId, ['dataFactory', '$filter', '$modal', 'toastr', commissioneCtrl]);
 
-	function commissioneCtrl(dataFactory, $modal, toastr) {
+	function commissioneCtrl(dataFactory, $filter, $modal, toastr) {
 		var vm = this;
-		vm.title = 'Commissioni';
+		vm.title = 'Commissioni Tecniche';
 		vm.view = 'elenco';
 		vm.elenco = [];
 		vm.record = {};
-		vm.componente = {};
-		
-		vm.filter = '';
-		vm.fields = 'nome=1&descrizione=1&referente.nominativo=0';
-		
-		//Collapse
-		vm.addIsCollapsed = true;
+		vm.newRecord = false;
+
+		vm.componenti = [];
 		
 		//Actions
 		vm.delete = deleteConfirm;
 		vm.new = createNew;
 		vm.refresh = getElenco;
 		vm.save = save;
-		vm.search = search;
 		vm.select = select;
 		vm.switchView = switchView;
 		
+		vm.getAlboAnag = getAlboAnag;
+		
+		//Azioni Ruoli
+		vm.ruoliUpdate = ruoliUpdate;
+		
+		//Azioni su Componenti
+		vm.componenteCheck = componenteCheck;		
 		vm.componenteAdd = componenteAdd;
 		vm.componenteDelete = componenteDelete;
 
@@ -39,28 +41,65 @@
 		// METODI 
 		//****************************************************
 		function getElenco() {
-			dataFactory.baseGetAll('commissioni', vm.fields).then(function (data) {
+			dataFactory.baseGetAll('commissioni').then(function (data) {
 				vm.elenco = data.data;
-			});
-		}
-
-		function getByFilter(filter) {
-			dataFactory.baseGetAllByFilter('commissioni', filter, vm.fields).then(function (data) {
-				vm.elenco = data.data;
+				syncElencoAnag();
 			});
 		}
 		
 		function getRecord(id) {
 			return dataFactory.baseGetById('commissioni', id).then(function (data) {
-				return data; 
+				vm.record = data.data;
+				
+				vm.newRecord = false;
+				getComponenti(vm.record.componenti);
 			});
 		}
 		
+		function syncElencoAnag() {
+			for(var i=0,len= vm.elenco.length;i<len;i++) {
+				var item = {};
+				item = vm.elenco[i];
+
+				referenteAnag(vm.elenco[i]);
+				coordinatoreAnag(vm.elenco[i]);
+			}
+		}
+		
+		function referenteAnag(item) {
+			var obj = item;
+			if(obj.referente) {
+					getAlboAnag(obj.referente).then(function(data) {
+						obj.referenteAnag = data.cognome + ' ' + data.nome;
+					});
+				}
+		}
+
+		function coordinatoreAnag(item) {
+			var obj = item;
+				if(obj.coordinatore) {
+					getAlboAnag(obj.coordinatore).then(function(data) {
+						obj.coordinatoreAnag = data.cognome + ' ' + data.nome;
+					});
+				}
+		}
+		
+		function getAlboAnag(id, result) {
+			var obj = result;
+			return dataFactory.baseGetById('albo', id + '/anag')
+				.then(function (data) {
+					obj = data.data;
+					return obj;
+			});
+		}
+
 		function postRecord() {
+
 			dataFactory.basePost('commissioni',vm.record)
 				.then(
 					function (data) {
 						vm.elenco.push(data.data);
+						vm.newRecord = false;
 						toastr.success('record saved');
 					}, 
 					function (err) {
@@ -106,15 +145,8 @@
 		}
 		
 		function save() {
-			if(!vm.record._id) postRecord();
+			if(vm.newRecord === true) postRecord();
 			else putRecord();
-		}
-		
-		function search() {
-			if(!vm.filter) {
-				getElenco();
-			} else 
-				getByFilter(vm.filter);
 		}
 		
 		function switchView(view) {
@@ -122,39 +154,116 @@
 		}
 		
 		function select(item) {
-			getRecord(item._id).then(function(data){
-				vm.record = data.data;
+			getRecord(item._id).then(function(){
+				vm.newRecord = false;
 				switchView('record');	
 			});
 		}
 
 		function createNew() {
 			vm.record = {};
-			componenteReset();
+			vm.componenti = [];
+			vm.newRecord = true;
+			//componenteReset();
 			switchView('record');
 		}
 		
+
 		//-----------------
-		// Azioni su Componenti
-		function componenteReset() {
-			vm.componente = {};
+		// RUOLI
+		function ruoliUpdate() {
+			dataFactory.commissioneRuoliUpdate(vm.record._id, 
+																				vm.record.referente, 
+																				vm.record.coordinatore, 
+																				vm.record.segretario)
+				.then(function (data) {
+					toastr.success('record updated');
+			});
+		}		
+		
+		//-----------------
+		// CONSIGLIERI 
+		function getComponenti(list) {
+			vm.componenti = [];
+			if(!list || list.length==0) { return; }
+			
+			return dataFactory.alboGetList(list)
+				.then(function(data){
+					vm.componenti = data.data;				
+				
+					for(var i=0,len=vm.componenti.length;i<len;i++) {
+						vm.componenti[i].nominativo = getComponenteNominativo(vm.componenti[i]);
+					}
+			});
+		}
+
+		function getComponenteNominativo(cons) {
+			if(!cons) { return; }
+			
+			return cons._id + ' - ' + cons.cognome + ' ' + cons.nome;
+		}
+		
+		function newComponenteReset() {
+			vm.newComponente = {};
+		}
+
+		function componenteCheck() {
+			if(!vm.newComponente.id) {
+				return;
+			}
+			getAlboAnag(vm.newComponente.id)
+				.then(function(data){
+					if(!data) {
+						vm.newComponente.nominativo = '';
+					} else {
+						vm.newComponente.nominativo = data.cognome + ' ' + data.nome;
+					}
+			});
+			
 		}
 		
 		function componenteAdd() {
-			dataFactory.postComponente(vm.record._id, vm.componente).then(function (data) {
-				vm.record.componenti.push(vm.componente);
-				componenteReset();
+			dataFactory.commissioneComponenteAdd(vm.record._id, vm.newComponente.id)
+				.then(function (data) {
+					getAlboAnag(vm.newComponente.id)
+						.then(function(data){
+							var cons = {};
+							
+							if(data) { 
+								cons = data; 
+								cons.nominativo = vm.newComponente.id + ' - ' + data.cognome + ' ' + data.nome;
+							}
+							cons._id = vm.newComponente.id;
+
+							vm.componenti.push(cons);
+							newComponenteReset();
+					});
 			});			
 		}
 		
 		function componenteDelete(item) {
-			var sezione = item.sezione,
-					numero 	= item.numero,
-					index		= vm.record.componenti.indexOf(item);
+			var index = vm.componenti.indexOf(item);
 			
-			dataFactory.deleteComponente(vm.record._id, sezione, numero).then(function (data) {
-				vm.record.componenti.splice(index, 1);
+			var strConfirm = item.nominativo;
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'app/common/modalConfirm.html',
+				controller: 'modalConfirmCtrl as vm',
+				resolve: {
+					text: function () {
+						return strConfirm;
+					}
+				}
 			});
+
+			modalInstance.result
+				.then(
+					function () { 
+						dataFactory.commissioneComponenteDelete(vm.record._id, item._id)
+							.then(function (data) {
+							vm.componenti.splice(index, 1);
+						});
+					});
 		}
 
 	}	

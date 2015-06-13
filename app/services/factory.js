@@ -35,6 +35,24 @@
 		};
 	
 		// --------------------------------------------------
+		// --- Commissione -----
+		_Factory.commissioneComponenteAdd = function(id, ingegnereId) {
+			return $http.post(urlBase + '/commissioni/' + id + '/comp/' + ingegnereId,{});
+		};
+
+		_Factory.commissioneComponenteDelete = function(id, ingegnereId) {
+			return $http.delete(urlBase + '/commissioni/' + id + '/comp/' + ingegnereId);
+		};
+
+		_Factory.commissioneRuoliUpdate = function(id, referente, coordinatore, segretario) {
+			var obj = {};
+			obj.referente = referente;
+			obj.coordinatore = coordinatore;
+			obj.segretario = segretario;
+			return $http.put(urlBase + '/commissioni/' + id + '/ruoli', obj);
+		};
+		
+		// --------------------------------------------------
 		// --- Consiglio Territoriale/Disciplina -----
 		_Factory.consiglioConsigliereAdd = function(tipo, consiglioId, ingegnereId) {
 			return $http.post(urlBase + '/consigli/' + tipo + '/' + consiglioId + '/cons/' + ingegnereId,{});
