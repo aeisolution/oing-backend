@@ -175,6 +175,62 @@
 										</div>
 											<!-- /.table-responsive -->
 							</tab>
+							<tab>
+								<tab-heading>
+									<i class="fa fa-calendar"></i> Collegi <span class="badge" ng-if="vm.record.collegi.length>0">{{ vm.record.collegi.length }}</span>
+								</tab-heading>
+								<div class="col-xs-12">
+									<h4 class="title text-primary">Collegi di Disciplina </h4>
+								</div>							
+								<div class="col-xs-12">
+									<div class="form-group col-xs-6">
+											<label>Numero</label>
+												<input name="inizio" ng-model="vm.newCollegio" class="form-control text-primary" type="number">
+										</div>
+									<div class="form-group col-xs-12">
+										<button ng-click="vm.collegioAdd(vm.newCollegio)" class="btn btn-success"><i class="fa fa-plus">Aggiungi Collegio</i></button> 
+									</div>
+								
+								</div>
+								<div class="col-xs-12" ng-repeat="colleg in vm.record.collegi | orderBy: 'numero'">
+									<div class="col-sm-11">
+										<div class="form-group col-md-2">
+											<label>Numero</label>
+												<input name="inizio" ng-model="colleg.numero" class="form-control text-primary" type="number" disabled>
+										</div>
+										<div class="form-group col-md-10">
+											<label>Presidente</label>
+											<select ng-model="colleg.presidente" ng-options="c._id as c.nominativo for c in vm.consiglieri | orderBy: 'cognome' " class="form-control">
+												<option value="">-- seleziona --</option>
+											</select>
+										</div>
+										<div class="form-group col-md-6">
+											<label>Segretario</label>
+											<select ng-model="colleg.segretario" ng-options="c._id as c.nominativo for c in vm.consiglieri | orderBy: 'cognome' " class="form-control">
+												<option value="">-- seleziona --</option>
+											</select>
+										</div>
+										<div class="form-group col-md-6">
+											<label>Consigliere</label>
+											<select ng-model="colleg.consigliere" ng-options="c._id as c.nominativo for c in vm.consiglieri | orderBy: 'cognome' " class="form-control">
+												<option value="">-- seleziona --</option>
+											</select>
+										</div>
+										<div class="clearfix"></div>
+										<div class="form-group col-md-12">
+												<label>Note</label>
+												<textarea ng-model="colleg.note" class="form-control" rows="3"></textarea>
+										</div>
+									</div>
+									
+									<div class="col-sm-1">
+										<button ng-click="vm.collegioUpdate(colleg)" class="btn btn-success btn-sm"><i class="fa fa-save"></i></button> 
+										<button ng-click="vm.collegioDelete(colleg)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+									</div>									
+									
+									<hr class="clearfix divider" />
+								</div>
+							</tab>
 						</tabset>
 
 				</div>

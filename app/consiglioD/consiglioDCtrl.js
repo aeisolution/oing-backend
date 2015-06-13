@@ -49,6 +49,11 @@
 		vm.eventoAdd = eventoAdd;
 		vm.eventoDelete = eventoDelete;
 
+		//Azioni su Collegi
+		vm.collegioAdd = collegioAdd;
+		vm.collegioUpdate = collegioUpdate;
+		vm.collegioDelete = collegioDelete;
+		
 		//ACTIVATE *****************************************
 		getCategorie();
 		getElenco();
@@ -346,6 +351,58 @@
 				resultDate = new Date(str);
 			}
 			return resultDate;
+		}
+		
+		//-----------------
+		// COLLEGI 
+		function collegioAdd(num) {
+			console.log('collegioAdd(%d)', num);
+			var newObj = {};
+			newObj.numero = num;
+			
+			dataFactory.consiglioDCollegioAdd(vm.record._id, newObj)
+				.then(function (data) {
+					vm.record.collegi.push(data.data);
+			});			
+		}
+		
+		function collegioUpdate(item) {
+			var newObj = {};
+			newObj.numero = item.numero;
+			newObj.presidente = item.presidente;
+			newObj.segretario = item.segretario;
+			newObj.consigliere = item.consigliere;
+			newObj.note = item.note;
+			
+			dataFactory.consiglioDCollegioUpdate(vm.record._id, newObj)
+				.then(function (data) {
+					toastr.success('record updated');
+			});			
+		}		
+		
+		function collegioDelete(item) {
+			var index = vm.record.eventi.indexOf(item);
+			
+			var strConfirm = 'Collegio N.' + item.numero;
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'app/common/modalConfirm.html',
+				controller: 'modalConfirmCtrl as vm',
+				resolve: {
+					text: function () {
+						return strConfirm;
+					}
+				}
+			});
+
+			modalInstance.result
+				.then(
+					function () { 
+						dataFactory.consiglioDCollegioDelete(vm.record._id, item.numero)
+							.then(function (data) {
+							vm.record.collegi.splice(index, 1);
+						});
+					});
 		}		
 
 	}	

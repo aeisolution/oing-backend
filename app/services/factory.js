@@ -71,6 +71,17 @@
 			return $http.put(urlBase + '/consigli/disciplina/' + consiglioId + '/ruoli', obj);
 		};
 
+		_Factory.consiglioDCollegioAdd = function(consiglioId, collegio) {
+			return $http.post(urlBase + '/consigli/disciplina/' + consiglioId + '/collegi', collegio);
+		};
+
+		_Factory.consiglioDCollegioUpdate = function(consiglioId, collegio) {
+			return $http.put(urlBase + '/consigli/disciplina/' + consiglioId + '/collegi', collegio);
+		};
+
+		_Factory.consiglioDCollegioDelete = function(consiglioId, numCollegio) {
+			return $http.delete(urlBase + '/consigli/disciplina/' + consiglioId + '/collegi/' + numCollegio);
+		};
 		
 		
 		//*************************************************
