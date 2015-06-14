@@ -33,6 +33,23 @@
 			
 			return $http.post(urlBase + '/albo/anag', obj);
 		};
+		
+		_Factory.alboSediUpdate = function(id, resIndirizzo, resComune, resCap, resTelefono, resFax, uffIndirizzo, uffComune, uffCap, uffTelefono1, uffTelefono2, uffFax) {
+			var obj = {};
+			obj.resIndirizzo = resIndirizzo;
+			obj.resComune = resComune;
+			obj.resCap = resCap;
+			obj.resTelefono = resTelefono;
+			obj.resFax = resFax;
+			obj.uffIndirizzo = uffIndirizzo;
+			obj.uffComune = uffComune;
+			obj.uffCap = uffCap;
+			obj.uffTelefono1 = uffTelefono1;
+			obj.uffTelefono2 = uffTelefono2;
+			obj.uffFax = uffFax;
+			
+			return $http.put(urlBase + '/albo/' + id + '/sedi', obj);
+		};		
 	
 		// --------------------------------------------------
 		// --- Commissione -----

@@ -59,8 +59,8 @@
 						requiredLogin: true
 					}
 				}).when('/albo', {
-					templateUrl: '/app/ingegnere/ingegnereMain.html',
-					controller: 'ingegnereCtrl as vm',
+					templateUrl: '/app/albo/alboIscrittiMain.html',
+					controller: 'iscrittoCtrl as vm',
 					access: {
 						requiredLogin: true
 					}
