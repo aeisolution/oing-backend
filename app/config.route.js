@@ -77,6 +77,12 @@
 						requiredLogin: true
 					}
 				// parametri *****************************************
+				}).when('/params/abilitazione', {
+					templateUrl: '/app/param/nome.html',
+					controller: 'abilitazioneCtrl as vm',
+					access: {
+						requiredLogin: true
+					}
 				}).when('/params/categoriaEvento', {
 					templateUrl: '/app/param/nome.html',
 					controller: 'categoriaEventoCtrl as vm',
