@@ -50,6 +50,30 @@
 			
 			return $http.put(urlBase + '/albo/' + id + '/sedi', obj);
 		};		
+		
+		_Factory.alboLaureaAdd = function(id, laurea) {
+			return $http.post(urlBase + '/albo/' + id + '/lauree', laurea);
+		};
+
+		_Factory.alboLaureaDelete = function(id, classe) {
+			return $http.delete(urlBase + '/albo/' + id + '/lauree/' + classe);
+		};
+
+		_Factory.alboAbilitazioneAdd = function(id, abilitazione) {
+			return $http.post(urlBase + '/albo/' + id + '/abilitazioni', abilitazione);
+		};
+
+		_Factory.alboAbilitazioneDelete = function(id, anno) {
+			return $http.delete(urlBase + '/albo/' + id + '/abilitazioni/' + anno);
+		};
+		
+		_Factory.alboIscrizioneAdd = function(id, iscrizione) {
+			return $http.post(urlBase + '/albo/' + id + '/iscrizioni', iscrizione);
+		};
+
+		_Factory.alboIscrizioneDelete = function(id, iscrizioneId) {
+			return $http.delete(urlBase + '/albo/' + id + '/iscrizioni/' + iscrizioneId);
+		};
 	
 		// --------------------------------------------------
 		// --- Commissione -----
@@ -122,6 +146,11 @@
 		//*************************************************
 		// Metodi per API Base
 		//*************************************************
+		_Factory.baseGetPageFilter = function(entity, page, filter) {
+			var p = page || '1';
+			return $http.post(urlBase + '/' + entity +  '/filter/page/' + p, filter);
+		};
+
 		_Factory.baseGetPage = function(entity, page) {
 			var p = page || '1';
 			return $http.get(urlBase + '/' + entity + '/page/' + p);

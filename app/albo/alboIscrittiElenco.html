@@ -10,6 +10,16 @@
 		</div>
 		<!-- /.panel-heading -->
 		<div class="panel-body">
+				<div>
+					<form role="form" class="form-inline">
+						<div class="form-group">
+							<label>Cognome</label>
+							<input ng-model="vm.filter" class="form-control">
+						</div>
+						<button type="submit" ng-click="vm.refresh()" class="btn btn-default">cerca</button>
+					</form>
+				</div>
+				<hr class="divider" />
 				<div class="row">
 					<div class="table-responsive col-xs-12">
 								<table class="table table-bordered table-hover table-striped">

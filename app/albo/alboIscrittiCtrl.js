@@ -17,6 +17,7 @@
 
 		
 		vm.lauree = [];
+		vm.abilitazioni = [];
 		
 		vm.filter = null;
 		
@@ -52,21 +53,59 @@
 		//Sedi
 		vm.sediUpdate = sediUpdate;
 		
+		//Lauree
+		vm.selectLaurea = selectLaurea;
+		vm.laureaAdd = laureaAdd;
+		vm.laureaDelete = laureaDelete;
+		
+		//Abilitazioni
+		vm.abilitazioneAdd = abilitazioneAdd;
+		vm.abilitazioneDelete = abilitazioneDelete;
+		
+		//Iscrizioni
+		vm.iscrizioneAdd = iscrizioneAdd;
+		vm.iscrizioneDelete = iscrizioneDelete;
+		
 		//ACTIVATE *****************************************
 		getPage();
 		count();
 		getLauree();
+		getAbilitazioni();
 
 		//****************************************************
 		// METODI 
 		//****************************************************
+		function getAbilitazioni() {
+			dataFactory.baseGetAll('params/abilitazioni').then(function (data) {
+				vm.abilitazioni = data.data;
+			});
+		}
+
 		function getLauree() {
 			dataFactory.baseGetAll('params/lauree').then(function (data) {
 				vm.lauree = data.data;
+				
+				if(vm.lauree.length>0) {
+					for(var i=0,len=vm.lauree.length;i<len;i++) {
+						vm.lauree[i].titolo = vm.lauree[i].codice + ' - ' + vm.lauree[i].nome;
+					}
+				}
+			});
+		}
+
+		function getPageFilter() {
+			var filter = { cognome: vm.filter };
+			
+			dataFactory.baseGetPageFilter('albo', vm.page, filter).then(function (data) {
+				vm.elenco = data.data;
 			});
 		}
 		
 		function getPage() {
+			if(vm.filter) {
+				return getPageFilter();
+			}
+
 			dataFactory.baseGetPage('albo', vm.page).then(function (data) {
 				vm.elenco = data.data;
 			});
@@ -284,7 +323,165 @@
 				.then(function (data) {
 					toastr.success('record updated');
 			});
+		}
+		
+		//-----------------
+		// LAUREE 
+		function selectLaurea() {
+			console.log('selectLaurea()');
+			if(vm.newLaurea.classe) {
+				for(var i=0,len=vm.lauree.length;i<len;i++) {
+					if(vm.newLaurea.classe===vm.lauree[i].codice) {
+						return newObj.descrizione = vm.lauree[i].nome;
+					}
+				}
+			}
+		}
+		
+		function newLaureaReset() {
+			vm.newLaurea = {};
+		}
+		
+		function laureaAdd(item) {
+			var newObj = {};
+			newObj.classe = item.classe;
+			newObj.descrizione = item.descrizione;
+			newObj.luogo = item.luogo;
+			newObj.anno = item.anno;
+			
+			dataFactory.alboLaureaAdd(vm.record._id, newObj)
+				.then(function (data) {
+					console.log(data);
+					newObj._id = data.data;
+					vm.record.lauree.push(newObj);
+					newLaureaReset();			
+			});			
+		}
+		
+		function laureaDelete(item) {
+			var index = vm.record.lauree.indexOf(item);
+			
+			var strConfirm = item.classe + ' ' + item.descrizione;
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'app/common/modalConfirm.html',
+				controller: 'modalConfirmCtrl as vm',
+				resolve: {
+					text: function () {
+						return strConfirm;
+					}
+				}
+			});
+
+			modalInstance.result
+				.then(
+					function () { 
+						dataFactory.alboLaureaDelete(vm.record._id, item.classe)
+							.then(function (data) {
+							vm.record.lauree.splice(index, 1);
+						});
+					});
 		}		
 
+		//-----------------
+		// ABILITAZIONI 
+		function newAbilitazioneReset() {
+			vm.newAbilitazione = {};
+		}
+		
+		function abilitazioneAdd(item) {
+			var newObj = {};
+			newObj.tipo = item.tipo;
+			newObj.luogo = item.luogo;
+			newObj.anno = item.anno;
+			
+			dataFactory.alboAbilitazioneAdd(vm.record._id, newObj)
+				.then(function (data) {
+					newObj._id = data.data;
+					vm.record.abilitazioni.push(newObj);
+					newAbilitazioneReset();			
+			});			
+		}
+		
+		function abilitazioneDelete(item) {
+			var index = vm.record.abilitazioni.indexOf(item);
+			
+			var strConfirm = item.tipo + ' ' + item.anno;
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'app/common/modalConfirm.html',
+				controller: 'modalConfirmCtrl as vm',
+				resolve: {
+					text: function () {
+						return strConfirm;
+					}
+				}
+			});
+
+			modalInstance.result
+				.then(
+					function () { 
+						dataFactory.alboAbilitazioneDelete(vm.record._id, item.anno)
+							.then(function (data) {
+							vm.record.abilitazioni.splice(index, 1);
+						});
+					});
+		}		
+		
+		//-----------------
+		// EVENTI 
+		function newIscrizioneReset() {
+			vm.newIscrizione = {};
+		}
+		
+		function iscrizioneAdd(item) {
+			var newObj = {};
+			newObj.data = convertStrToDate(item.data);
+			newObj.provincia = item.provincia;
+			
+			dataFactory.alboIscrizioneAdd(vm.record._id, newObj)
+				.then(function (data) {
+					newObj._id = data.data;
+					vm.record.iscrizioni.push(newObj);
+					newIscrizioneReset();			
+			});			
+		}
+		
+		function iscrizioneDelete(item) {
+			var index = vm.record.iscrizioni.indexOf(item);
+			
+			var strConfirm = item.data + ' ' + item.provincia;
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'app/common/modalConfirm.html',
+				controller: 'modalConfirmCtrl as vm',
+				resolve: {
+					text: function () {
+						return strConfirm;
+					}
+				}
+			});
+
+			modalInstance.result
+				.then(
+					function () { 
+						dataFactory.alboIscrizioneDelete(vm.record._id, item._id)
+							.then(function (data) {
+							vm.record.iscrizioni.splice(index, 1);
+						});
+					});
+		}
+		
+		//-----------------
+		// Metodi per date
+		function convertStrToDate(str) {
+			var resultDate = null;
+
+			if(str) {
+				resultDate = new Date(str);
+			}
+			return resultDate;
+		}		
+		
 	}	
 })();

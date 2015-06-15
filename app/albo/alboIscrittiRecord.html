@@ -122,7 +122,7 @@
 							</tab>
 							<tab>
 								<tab-heading>
-									<i class="fa fa-file-o"></i> Residenza / Ufficio
+									<i class="fa fa-building-o"></i> Residenza / Ufficio
 								</tab-heading>
 								<form role="form" class="col-xs-12">
 									<div class="col-xs-12">
@@ -182,6 +182,174 @@
 								</form>								
 								
 							</tab>
+							<tab>
+								<tab-heading>
+									<i class="fa fa-graduation-cap"></i> Lauree <span class="badge" ng-if="vm.record.lauree.length>0">{{ vm.record.lauree.length }}</span>
+								</tab-heading>
+								<div class="col-xs-12">
+									<h4 class="title text-primary">Elenco Titoli di Studio - Laurea </h4>
+								</div>
+								<div class="col-xs-12">
+									<div class="panel panel-default" >
+										<form class="panel-body">
+											<div class="form-group col-md-6">
+												<label>Codice (classe di laurea)</label>
+												<select ng-change="vm.selectLaurea()" ng-model="vm.newLaurea.classe" ng-options="event.codice as event.titolo for event in vm.lauree | orderBy: 'nome' " class="form-control">
+													<option value="">-- seleziona --</option>
+												</select>
+											</div>											
+											<div class="form-group col-lg-6">
+													<label>Titolo</label>
+													<input ng-model="vm.newLaurea.descrizione" class="form-control">
+											</div>
+											<div class="form-group col-lg-6">
+													<label>Luogo</label>
+													<input ng-model="vm.newLaurea.luogo" class="form-control">
+											</div>
+											<div class="form-group col-lg-6">
+													<label>Anno</label>
+													<input type="number" ng-model="vm.newLaurea.anno" class="form-control">
+											</div>
+
+											<div class="form-group col-md-12">
+												<button ng-click="vm.laureaAdd(vm.newLaurea)" type="submit" class="btn btn-success">Aggiungi</button>
+											</div>
+										</form>
+									</div>
+								</div>
+										<div class="table-responsive col-xs-12">
+											<table class="table table-bordered table-hover table-striped">
+													<thead>
+															<tr>
+																	<th>Laurea</th>
+																	<th>Anno</th>
+																	<th>Luogo</th>
+																	<th>Azioni</th>
+															</tr>
+													</thead>
+													<tbody>
+															<tr ng-repeat="laurea in vm.record.lauree | orderBy: 'Anno'">
+																<td>{{ laurea.classe }} - {{ laurea.descrizione }} </td>
+																<td>{{ laurea.anno }}</td>
+																<td>{{ laurea.luogo }}</td>
+																<td>
+																	<button ng-click="vm.laureaDelete(laurea)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+																</td>
+															</tr>
+													</tbody>
+											</table>
+
+										</div>
+											<!-- /.table-responsive -->
+							</tab>	
+							<tab>
+								<tab-heading>
+									<i class="fa fa-certificate"></i> Abilitazioni <span class="badge" ng-if="vm.record.abilitazioni.length>0">{{ vm.record.abilitazioni.length }}</span>
+								</tab-heading>
+								<div class="col-xs-12">
+									<h4 class="title text-primary">Elenco Abilitazioni </h4>
+								</div>
+								<div class="col-xs-12">
+									<div class="panel panel-default" >
+										<form class="panel-body">
+											<div class="form-group col-md-6">
+												<label>tipo</label>
+												<select ng-model="vm.newAbilitazione.tipo" ng-options="abilitazione.nome as abilitazione.nome for abilitazione in vm.abilitazioni | orderBy: 'nome' " class="form-control">
+													<option value="">-- seleziona --</option>
+												</select>
+											</div>											
+											<div class="form-group col-lg-6">
+													<label>Luogo</label>
+													<input ng-model="vm.newAbilitazione.luogo" class="form-control">
+											</div>
+											<div class="form-group col-lg-6">
+													<label>Anno</label>
+													<input type="number" ng-model="vm.newAbilitazione.anno" class="form-control">
+											</div>
+
+											<div class="form-group col-md-12">
+												<button ng-click="vm.abilitazioneAdd(vm.newAbilitazione)" type="submit" class="btn btn-success">Aggiungi</button>
+											</div>
+										</form>
+									</div>
+								</div>
+										<div class="table-responsive col-xs-12">
+											<table class="table table-bordered table-hover table-striped">
+													<thead>
+															<tr>
+																	<th>Tipo</th>
+																	<th>Anno</th>
+																	<th>Luogo</th>
+																	<th>Azioni</th>
+															</tr>
+													</thead>
+													<tbody>
+															<tr ng-repeat="abil in vm.record.abilitazioni | orderBy: 'Anno'">
+																<td>{{ abil.tipo }}</td>
+																<td>{{ abil.anno }}</td>
+																<td>{{ abil.luogo }}</td>
+																<td>
+																	<button ng-click="vm.abilitazioneDelete(abil)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+																</td>
+															</tr>
+													</tbody>
+											</table>
+
+										</div>
+											<!-- /.table-responsive -->
+							</tab>
+<tab>
+								<tab-heading>
+									<i class="fa fa-calendar"></i> Iscrizioni <span class="badge" ng-if="vm.record.iscrizioni.length>0">{{ vm.record.iscrizioni.length }}</span>
+								</tab-heading>
+								<div class="col-xs-12">
+									<h4 class="title text-primary">Storico iscrizioni Albo Ordine Ingegneri </h4>
+								</div>
+								<div class="col-xs-12">
+									<div class="panel panel-default" >
+										<form class="panel-body">
+											<div class="form-group col-md-6">
+												<label>data</label>
+												<div class="input-group">
+													<input type="date" class="form-control" datepicker-popup ng-model="vm.newIscrizione.data" is-open="vm.opened['newEvent']" close-text="Close" />
+													<span class="input-group-btn">
+														<button type="button" class="btn btn-default" ng-click="vm.open('newEvent',$event)"><i class="glyphicon glyphicon-calendar"></i></button>
+													</span>
+												</div>											
+											</div>	
+											<div class="form-group col-md-12">
+												<label>Provincia</label>
+												<input type="text" ng-model="vm.newIscrizione.provincia" class="form-control" placeholder="Siracusa"></input>
+											</div>
+											<div class="form-group col-md-12">
+												<button ng-click="vm.iscrizioneAdd(vm.newIscrizione)" type="submit" class="btn btn-success">Aggiungi</button>
+											</div>
+										</form>
+									</div>
+								</div>
+										<div class="table-responsive col-xs-12">
+											<table class="table table-bordered table-hover table-striped">
+													<thead>
+															<tr>
+																	<th>Data</th>
+																	<th>Provincia</th>
+																	<th>Azioni</th>
+															</tr>
+													</thead>
+													<tbody>
+															<tr ng-repeat="iscriz in vm.record.iscrizioni | orderBy: 'Data'">
+																<td>{{ iscriz.data | date: 'dd-MM-yyyy' }}</td>
+																<td>{{ iscriz.provincia }}</td>
+																<td>
+																	<button ng-click="vm.iscrizioneDelete(iscriz)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+																</td>
+															</tr>
+													</tbody>
+											</table>
+
+										</div>
+											<!-- /.table-responsive -->
+							</tab>							
 						</tabset>
 
 				</div>
