@@ -208,8 +208,7 @@
 		function deleteConfirm(item) {
 			var strConfirm = 	item.nome + ' ' + 
 												item.cognome + ' ' + 
-												item.albo.numero + '/' + 
-												item.albo.sezione;
+												item._id;
 			
 			var modalInstance = $modal.open({
 				templateUrl: 'app/common/modalConfirm.html',
