@@ -29,6 +29,7 @@
 		vm.ruoliUpdate = ruoliUpdate;
 		
 		//Azioni su Componenti
+		vm.alboSelect = selectAlbo;		
 		vm.componenteCheck = componenteCheck;		
 		vm.componenteAdd = componenteAdd;
 		vm.componenteDelete = componenteDelete;
@@ -222,18 +223,42 @@
 			
 		}
 		
-		function componenteAdd() {
-			dataFactory.commissioneComponenteAdd(vm.record._id, vm.newComponente.id)
+				function selectAlbo() {
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'app/common/modalSelectAlbo.html',
+				controller: 'selectAlboCtrl as vm',
+				resolve: {
+					filter: function () {
+						return '';
+					}
+				}
+			});
+
+			modalInstance.result
+				.then(
+					function (numero) { 
+						if(!numero) {
+							return toastr.error('Nessuna selezione');
+						}
+						componenteAdd(numero);
+					});
+			
+		}
+		
+		
+		function componenteAdd(numeroAlbo) {
+			dataFactory.commissioneComponenteAdd(vm.record._id, numeroAlbo)
 				.then(function (data) {
-					getAlboAnag(vm.newComponente.id)
+					getAlboAnag(numeroAlbo)
 						.then(function(data){
 							var cons = {};
 							
 							if(data) { 
 								cons = data; 
-								cons.nominativo = vm.newComponente.id + ' - ' + data.cognome + ' ' + data.nome;
+								cons.nominativo = numeroAlbo + ' - ' + data.cognome + ' ' + data.nome;
 							}
-							cons._id = vm.newComponente.id;
+							cons._id = numeroAlbo;
 
 							vm.componenti.push(cons);
 							newComponenteReset();

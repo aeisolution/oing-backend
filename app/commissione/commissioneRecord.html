@@ -83,10 +83,13 @@
 										<form class="panel-body">
 										<div class="form-group">
 											<div class="input-group">
+												<span class="input-group-btn">
+													<button ng-click="vm.alboSelect()" class="btn btn-default">...</button>
+												</span>
 												<input ng-model="vm.newComponente.id" class="form-control" placeholder="A0000">
 												<span class="input-group-btn">
-											<button ng-click="vm.componenteCheck()" class="btn btn-default">Check</button>
-											<button ng-click="vm.componenteAdd()" class="btn btn-success">Aggiungi</button>
+													<button ng-click="vm.componenteCheck()" class="btn btn-default">Check</button>
+													<button ng-click="vm.componenteAdd(vm.newComponente.id)" class="btn btn-success">Aggiungi</button>
 												</span>
 											</div><!-- /input-group -->											
 											<p class="help-block">Inserire sezione e numero di iscrizione (es. A1602).</p>

@@ -41,6 +41,7 @@
 		vm.ruoliUpdate = ruoliUpdate;
 		
 		//Azioni su Consiglieri
+		vm.alboSelect = selectAlbo;		
 		vm.consigliereCheck = consigliereCheck;		
 		vm.consigliereAdd = consigliereAdd;
 		vm.consigliereDelete = consigliereDelete;
@@ -250,18 +251,41 @@
 			
 		}
 		
-		function consigliereAdd() {
-			dataFactory.consiglioConsigliereAdd('territorio', vm.record._id, vm.newConsigliere.id)
+		function selectAlbo() {
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'app/common/modalSelectAlbo.html',
+				controller: 'selectAlboCtrl as vm',
+				resolve: {
+					filter: function () {
+						return '';
+					}
+				}
+			});
+
+			modalInstance.result
+				.then(
+					function (numero) { 
+						if(!numero) {
+							return toastr.error('Nessuna selezione');
+						}
+						consigliereAdd(numero);
+					});
+			
+		}		
+		
+		function consigliereAdd(numeroAlbo) {
+			dataFactory.consiglioConsigliereAdd('territorio', vm.record._id, numeroAlbo)
 				.then(function (data) {
-					getAlboAnag(vm.newConsigliere.id)
+					getAlboAnag(numeroAlbo)
 						.then(function(data){
 							var cons = {};
 							
 							if(data) { 
 								cons = data; 
-								cons.nominativo = vm.newConsigliere.id + ' - ' + data.cognome + ' ' + data.nome;
+								cons.nominativo = numeroAlbo + ' - ' + data.cognome + ' ' + data.nome;
 							}
-							cons._id = vm.newConsigliere.id;
+							cons._id = numeroAlbo;
 
 							vm.consiglieri.push(cons);
 							newConsigliereReset();
