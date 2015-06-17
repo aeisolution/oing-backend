@@ -17,6 +17,7 @@
 				// DashBoard *****************************************
 				}).when('/dashboard', {
 					templateUrl: '/app/dashboard/dashboard.html',
+					controller: 'dashboardCtrl as vm',
 					access: {
 						requiredLogin: true
 					}
