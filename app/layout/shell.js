@@ -14,6 +14,7 @@
 			
 				// Autenticated User
 				vm.username = AuthenticationFactory.user || '';			
+				vm.role = AuthenticationFactory.userRole || '';			
 				$scope.$watch(
 					function(scope) { return AuthenticationFactory.isLogged },
               function(newValue, oldValue) { 

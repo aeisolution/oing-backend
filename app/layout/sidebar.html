@@ -1,4 +1,4 @@
-<div class="navbar-default sidebar" role="navigation" ng-controller="sidebarCtrl as vm">
+<div class="navbar-default sidebar" role="navigation">
 	<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
 					<!-- SEARCH
@@ -81,7 +81,9 @@
 									</li>
 							</ul>
 					</li>								
-
+					<li ng-if="vm.role=='admin'">
+							<a href="#/users"><i class="fa fa-shield fa-fw"></i> Utenti</a>
+					</li>	
 			</ul>
 	</div>
 	<!-- /.sidebar-collapse -->

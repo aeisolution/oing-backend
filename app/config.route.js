@@ -77,6 +77,12 @@
 					access: {
 						requiredLogin: true
 					}
+				}).when('/users', {
+					templateUrl: '/app/user/userMain.html',
+					controller: 'userCtrl as vm',
+					access: {
+						requiredLogin: true
+					}				
 				// parametri *****************************************
 				}).when('/params/abilitazione', {
 					templateUrl: '/app/param/nome.html',

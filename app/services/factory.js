@@ -14,6 +14,10 @@
 			return $http.post(urlBase + '/accounts/pwd/change', obj);
 		}; 
 
+		_Factory.resetPassword = function(obj) {
+			return $http.post(urlBase + '/accounts/pwd/reset', obj);
+		}; 
+
 		// --- PROFILO -----
 		_Factory.getProfiloUtente = function(username) {
 			return $http.get(urlBase + '/profilo/' + username);
