@@ -30,13 +30,15 @@
 		//****************************************************
 		function getElenco() {
 			dataFactory.baseGetAll('files').then(function (data) {
-				vm.elenco = data.data;
+				vm.elenco = data.data.list;
+				vm.numRecords = data.data.pager.count;
 			});
 		}
 
 		function getByFilter(filter) {
 			dataFactory.baseGetAllByFilter('files', filter).then(function (data) {
-				vm.elenco = data.data;
+				vm.elenco = data.data.list;
+				vm.numRecords = data.data.pager.count;
 			});
 		}
 		

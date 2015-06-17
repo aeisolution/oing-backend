@@ -27,22 +27,17 @@
 
 		//ACTIVATE *****************************************
 		getPage();
-		count();
 
 		//****************************************************
 		// METODI 
 		//****************************************************
 		function getPage() {
 			dataFactory.baseGetPage('params/' + vm.param, vm.page).then(function (data) {
-				vm.elenco = data.data;
+				vm.elenco = data.data.list;
+				vm.numRecords = data.data.pager.count;
 			});
 		}
 
-		function count() {
-			dataFactory.baseCount('params/' + vm.param).then(function (data) {
-				vm.numRecords = data.data;
-			});
-		}
 
 		function postRecord(item) {
 			var index = vm.elenco.indexOf(item);

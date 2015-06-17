@@ -34,7 +34,8 @@
 		//****************************************************
 		function getElenco() {
 			dataFactory.baseGetAll('fatture').then(function (data) {
-				vm.elenco = data.data;
+				vm.elenco = data.data.list;
+				vm.numRecords = data.data.pager.count;
 			});
 		}
 

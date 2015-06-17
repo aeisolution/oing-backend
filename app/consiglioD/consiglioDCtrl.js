@@ -64,7 +64,9 @@
 		//****************************************************
 		function getElenco() {
 			dataFactory.baseGetAll('consigli/disciplina').then(function (data) {
-				vm.elenco = data.data;
+				vm.elenco = data.data.list;
+				vm.numRecords = data.data.pager.count;
+
 				syncElencoAnag();
 			});
 		}

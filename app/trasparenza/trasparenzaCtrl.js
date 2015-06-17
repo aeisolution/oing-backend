@@ -30,23 +30,16 @@
 
 		//ACTIVATE *****************************************
 		getPage();
-		count();
 
 		//****************************************************
 		// METODI 
 		//****************************************************
 		function getPage() {
 			dataFactory.baseGetPage('trasparenza', vm.page).then(function (data) {
-				vm.elenco = data.data;
+				vm.elenco = data.data.list;
+				vm.numRecords = data.data.pager.count;
 			});
 		}
-
-		function count() {
-			dataFactory.baseCount('trasparenza').then(function (data) {
-				vm.numRecords = data.data;
-			});
-		}
-		
 
 		function getRecord(id) {
 			return dataFactory.baseGetById('trasparenza', id).then(function (data) {

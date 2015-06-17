@@ -59,7 +59,9 @@
 		//****************************************************
 		function getElenco() {
 			dataFactory.baseGetAll('consigli/territorio').then(function (data) {
-				vm.elenco = data.data;
+				vm.elenco = data.data.list;
+				vm.numRecords = data.data.pager.count;
+
 				syncElencoAnag();
 			});
 		}

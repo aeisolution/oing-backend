@@ -31,7 +31,6 @@
 		//ACTIVATE *****************************************
 		getCategorie();
 		getPage();
-		count();
 
 		//****************************************************
 		// METODI 
@@ -43,16 +42,10 @@
 		}
 		function getPage() {
 			dataFactory.baseGetPage('news', vm.page).then(function (data) {
-				vm.elenco = data.data;
+				vm.elenco = data.data.list;
+				vm.numRecords = data.data.pager.count;
 			});
 		}
-
-		function count() {
-			dataFactory.baseCount('news').then(function (data) {
-				vm.numRecords = data.data;
-			});
-		}
-		
 
 		function getRecord(id) {
 			return dataFactory.baseGetById('news', id).then(function (data) {
