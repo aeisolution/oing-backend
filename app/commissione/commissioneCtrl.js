@@ -192,7 +192,8 @@
 			
 			return dataFactory.alboGetList(list)
 				.then(function(data){
-					vm.componenti = data.data;				
+					vm.componenti = data.data.list;
+					//vm.numRecords = data.data.pager.count;
 				
 					for(var i=0,len=vm.componenti.length;i<len;i++) {
 						vm.componenti[i].nominativo = getComponenteNominativo(vm.componenti[i]);

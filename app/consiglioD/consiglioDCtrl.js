@@ -222,7 +222,8 @@
 			
 			return dataFactory.alboGetList(list)
 				.then(function(data){
-					vm.consiglieri = data.data;				
+					vm.consiglieri = data.data.list;
+					//vm.numRecords = data.data.pager.count;
 				
 					for(var i=0,len=vm.consiglieri.length;i<len;i++) {
 						vm.consiglieri[i].nominativo = getConsigliereNominativo(vm.consiglieri[i]);

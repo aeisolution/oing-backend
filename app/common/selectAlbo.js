@@ -22,13 +22,9 @@
 			$modalInstance.dismiss('cancel');
 		};
 		
-		
-
 		// **********************************************
 		// Init Elenco
 		getPage();
-		count();
-
 		
 		// **********************************************
 		// Metodi
@@ -36,7 +32,8 @@
 			var filter = { cognome: vm.filter };
 			
 			dataFactory.baseGetPageFilter('albo', vm.page, filter).then(function (data) {
-				vm.elenco = data.data;
+				vm.elenco = data.data.list;
+				vm.numRecords = data.data.pager.count;
 			});
 		}
 		
@@ -46,14 +43,10 @@
 			}
 
 			dataFactory.baseGetPage('albo', vm.page).then(function (data) {
-				vm.elenco = data.data;
+				vm.elenco = data.data.list;
+				vm.numRecords = data.data.pager.count;
 			});
 		}
 
-		function count() {
-			dataFactory.baseCount('albo').then(function (data) {
-				vm.numRecords = data.data;
-			});
-		}		
 	}
 })();
