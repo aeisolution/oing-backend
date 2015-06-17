@@ -68,7 +68,6 @@
 		
 		//ACTIVATE *****************************************
 		getPage();
-		count();
 		getLauree();
 		getAbilitazioni();
 
@@ -97,7 +96,8 @@
 			var filter = { cognome: vm.filter };
 			
 			dataFactory.baseGetPageFilter('albo', vm.page, filter).then(function (data) {
-				vm.elenco = data.data;
+				vm.elenco = data.data.elenco;
+				vm.numRecords = data.data.pager.count;
 			});
 		}
 		
@@ -107,16 +107,11 @@
 			}
 
 			dataFactory.baseGetPage('albo', vm.page).then(function (data) {
-				vm.elenco = data.data;
-			});
-		}
+				vm.elenco = data.data.elenco;
+				vm.numRecords = data.data.pager.count;
 
-		function count() {
-			dataFactory.baseCount('albo').then(function (data) {
-				vm.numRecords = data.data;
 			});
 		}
-		
 
 		function getRecord(id) {
 			return dataFactory.baseGetById('albo', id).then(function (data) {
