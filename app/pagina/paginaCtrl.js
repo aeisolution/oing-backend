@@ -37,7 +37,7 @@
 		//****************************************************
 		function getCategorie() {
 			dataFactory.baseGetAll('params/categoriePagina').then(function (data) {
-				vm.categorie = data.data;
+				vm.categorie = data.data.list;
 			});
 		}
 

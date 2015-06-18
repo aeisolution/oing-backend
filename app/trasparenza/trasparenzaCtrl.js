@@ -49,9 +49,6 @@
 
 
 		function postRecord() {
-			console.log('record to post');
-			console.log(vm.record);
-			
 			dataFactory.basePost('trasparenza',vm.record)
 				.then(
 					function (data) {

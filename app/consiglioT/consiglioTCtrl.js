@@ -68,7 +68,7 @@
 		
 		function getCategorie() {
 			dataFactory.baseGetAll('params/categorieEvento').then(function (data) {
-				vm.categorie = data.data;
+				vm.categorie = data.data.list;
 			});
 		}
 		

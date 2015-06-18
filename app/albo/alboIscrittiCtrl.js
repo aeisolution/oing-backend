@@ -76,13 +76,13 @@
 		//****************************************************
 		function getAbilitazioni() {
 			dataFactory.baseGetAll('params/abilitazioni').then(function (data) {
-				vm.abilitazioni = data.data;
+				vm.abilitazioni = data.data.list;
 			});
 		}
 
 		function getLauree() {
 			dataFactory.baseGetAll('params/lauree').then(function (data) {
-				vm.lauree = data.data;
+				vm.lauree = data.data.list;
 				
 				if(vm.lauree.length>0) {
 					for(var i=0,len=vm.lauree.length;i<len;i++) {
