@@ -3,10 +3,13 @@
 (function () {
 	'use strict';
 	var controllerId = 'newsCtrl';
-	angular.module('app').controller(controllerId, ['dataFactory', '$scope', '$filter', '$modal', 'toastr', newsCtrl]);
+	angular.module('app').controller(controllerId, ['dataFactory', '$window', '$scope', '$filter', '$modal', 'toastr', newsCtrl]);
 
-	function newsCtrl(dataFactory, $scope, $filter, $modal, toastr) {
+	function newsCtrl(dataFactory, $window, $scope, $filter, $modal, toastr) {
 		var vm = this;
+		
+		var urlBase = 'http://127.0.0.1:3000/download/';
+		
 		vm.title = 'News';
 		vm.view = 'elenco';
 		vm.elenco = [];
@@ -27,7 +30,14 @@
 		vm.select = select;
 		vm.switchView = switchView;
 		
+		vm.sendFile = sendFile;
+		
+		vm.allegatoEdit = allegatoEdit;
+		vm.allegatoPreview = allegatoPreview;
+		vm.allegatoSave = allegatoSave;
+		vm.allegatoDelete = allegatoDelete;
 
+		
 		//ACTIVATE *****************************************
 		getCategorie();
 		getPage();
@@ -132,6 +142,81 @@
 		function resetRecord() {
 			vm.record = {};
 		}
+		
+		
+		//ALLEGATI
+		function sendFile(file) {
+			if(!file) {
+				return toastr.warning('Select File');
+			}
+				
+			dataFactory.uploadAllegato('news', vm.record._id, file)
+				.then(
+					function (data) { 
+						toastr.success('file uploaded');
+						vm.record.allegati.push(data.data);
+						vm.file = '';
+					},
+					function (err, status) {
+						toastr.error('ERROR upload');
+        }
+			);
+		}		
+
+		function allegatoEdit(item) {
+			item.edit = true;
+		}
+		
+		function allegatoCancel(item) {
+			delete item.edit;
+		}
+		
+		function allegatoSave(item) {
+			dataFactory.baseAllegatiPut('news', vm.record._id, item)
+				.then(					
+					function (data) { 
+						toastr.success('updated');
+						delete item.edit;
+					},
+					function (err, status) {
+						toastr.error('ERROR update');
+        }
+			);
+		}
+		
+		function allegatoDelete(item) {
+			var index = vm.record.allegati.indexOf(item);
+			
+			var strConfirm = item.titolo;
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'app/common/modalConfirm.html',
+				controller: 'modalConfirmCtrl as vm',
+				resolve: {
+					text: function () {
+						return strConfirm;
+					}
+				}
+			});
+
+			modalInstance.result
+				.then(
+					function () { 
+						dataFactory.baseAllegatiDelete('news', vm.record._id, item.id)
+							.then(					
+								function (data) { 
+									vm.record.allegati.splice(index, 1);
+									toastr.success('deleted');
+								}
+						);
+					});
+			
+		}
+		
+		function allegatoPreview(item) {
+			$window.open(urlBase  + item.id,"_blank");
+		}
+		
 		
 	}	
 })();

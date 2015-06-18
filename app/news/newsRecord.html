@@ -16,12 +16,12 @@
 									<i class="fa fa-file-o"></i> Scheda
 								</tab-heading>
 								<form role="form" class="col-xs-12">
-									<div class="form-group col-md-12">
+									<div class="form-group">
 											<label>Titolo</label>
 											<input ng-model="vm.record.titolo" class="form-control">
 									</div>
-									<div class="form-group col-md-10">
-											<label>Sottotitolo</label>
+									<div class="form-group">
+											<label>Autore/Referente</label>
 											<input ng-model="vm.record.sottotitolo" class="form-control">
 									</div>
 									<div class="form-group">
@@ -49,7 +49,7 @@
 											<label>Contenuto</label>
 											<div text-angular ng-model="vm.record.contenuto"></div>
 									</div>											
-									<div class="form-group col-xs-12">
+									<div class="form-group">
 										<div class="form-group">
 												<label class="checkbox-inline">
 														<input ng-model="vm.record.published" type="checkbox"> Pubblicata
@@ -68,6 +68,7 @@
 								<tab-heading>
 									<i class="fa fa-file-o"></i> Allegati
 								</tab-heading>	
+								<div ng-include="'app/common/allegati.html'"></div>
 								
 							</tab>
 						</tabset>

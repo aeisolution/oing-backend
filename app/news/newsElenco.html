@@ -18,7 +18,6 @@
 														<th>Titolo</th>
 														<th>Categoria</th>
 														<th>Data</th>
-														<th>Pubblicata</th>
 														<th>Azioni</th>
 												</tr>
 										</thead>
@@ -26,11 +25,12 @@
 												<tr ng-repeat="news in vm.elenco">
 													<td>{{ news.titolo }}</td>
 													<td>{{ news.categoria }}</td>
-													<td>{{ news.dtInsert }}</td>
-													<td>{{ news.published }}</td>
+													<td>{{ news.dtInsert | date: 'dd-MM-yyyy'}}</td>
 													<td>
-														<button ng-click="vm.select(news)" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></button> 
-														<button ng-click="vm.delete(news)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
+														<button ng-click="vm.select(news)" class="btn btn-primary btn-sm">
+															<i class="fa fa-pencil"></i></button> 
+														<button ng-click="vm.delete(news)" class="btn btn-danger btn-sm">
+															<i class="fa fa-times"></i></button> 
 													</td>
 												</tr>
 										</tbody>

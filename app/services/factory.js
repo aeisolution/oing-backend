@@ -193,9 +193,43 @@
 			return $http.delete(urlBase + '/' + entity + '/' + id);
 		};
 		
+		_Factory.baseAllegatiPut = function(entity, id, obj) {
+			return $http.put(urlBase + '/' + entity + '/' + id + '/allegati', obj);
+		};
+
+		_Factory.baseAllegatiDelete = function(entity, id, allegatoId) {
+			return $http.delete(urlBase + '/' + entity + '/' + id + '/allegati/' + allegatoId);
+		};
+		
 		//*************************************************
 		// Metodi per UPLOAD FILE E FATTURA
 		//*************************************************
+		_Factory.uploadAllegato = function(entity, id, file) {
+			return $http({
+            method: 'POST',
+            url: urlBase + '/allegato',
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            data: {
+								entity: entity,
+								id:	id,
+                upload: file
+            },
+            transformRequest: function (data, headersGetter) {
+                var formData = new FormData();
+                angular.forEach(data, function (value, key) {
+                    formData.append(key, value);
+                });
+
+                var headers = headersGetter();
+                delete headers['Content-Type'];
+
+                return formData;
+            }
+        });	
+		}
+
 		_Factory.uploadFile = function(file) {
 			return $http({
             method: 'POST',

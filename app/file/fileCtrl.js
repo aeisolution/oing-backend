@@ -133,12 +133,6 @@
 		}
 
 		function preview(item) {
-			dataFactory.filePreview(item._id).then(function (data) {
-				toastr.success('download avviato..');
-			});
-		}
-
-		function preview(item) {
 			$window.open(urlBase  + item._id,"_blank");
 		}
 
