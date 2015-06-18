@@ -3,9 +3,9 @@
 (function () {
 	'use strict';
 	var controllerId = 'trasparenzaCtrl';
-	angular.module('app').controller(controllerId, ['dataFactory', '$scope', '$filter', '$modal', 'toastr', trasparenzaCtrl]);
+	angular.module('app').controller(controllerId, ['webconfig', 'dataFactory', '$window', '$scope', '$filter', '$modal', 'toastr', trasparenzaCtrl]);
 
-	function trasparenzaCtrl(dataFactory, $scope, $filter, $modal, toastr) {
+	function trasparenzaCtrl(webconfig, dataFactory, $window, $scope, $filter, $modal, toastr) {
 		var vm = this;
 		vm.title = 'Amministrazione Trasparente';
 		vm.view = 'elenco';
@@ -26,6 +26,15 @@
 		vm.save = save;
 		vm.select = select;
 		vm.switchView = switchView;
+		
+		// Gestione allegati
+		vm.sendFile = sendFile;
+		
+		vm.allegatoEdit = allegatoEdit;
+		vm.allegatoPreview = allegatoPreview;
+		vm.allegatoSave = allegatoSave;
+		vm.allegatoDelete = allegatoDelete;
+		
 		
 
 		//ACTIVATE *****************************************
@@ -123,6 +132,82 @@
 		function resetRecord() {
 			vm.record = {};
 		}
+		
+	//ALLEGATI
+		function sendFile(file) {
+			if(!file) {
+				return toastr.warning('Select File');
+			}
+				
+			dataFactory.uploadAllegato('trasparenza', vm.record._id, file)
+				.then(
+					function (data) { 
+						toastr.success('file uploaded');
+						if(!vm.record.allegati) {
+							vm.record.allegati = [];
+						}
+						vm.record.allegati.push(data.data);
+						vm.file = '';
+					},
+					function (err, status) {
+						toastr.error('ERROR upload');
+        }
+			);
+		}		
+
+		function allegatoEdit(item) {
+			item.edit = true;
+		}
+		
+		function allegatoCancel(item) {
+			delete item.edit;
+		}
+		
+		function allegatoSave(item) {
+			dataFactory.baseAllegatiPut('trasparenza', vm.record._id, item)
+				.then(					
+					function (data) { 
+						toastr.success('updated');
+						delete item.edit;
+					},
+					function (err, status) {
+						toastr.error('ERROR update');
+        }
+			);
+		}
+		
+		function allegatoDelete(item) {
+			var index = vm.record.allegati.indexOf(item);
+			
+			var strConfirm = item.titolo;
+			
+			var modalInstance = $modal.open({
+				templateUrl: 'app/common/modalConfirm.html',
+				controller: 'modalConfirmCtrl as vm',
+				resolve: {
+					text: function () {
+						return strConfirm;
+					}
+				}
+			});
+
+			modalInstance.result
+				.then(
+					function () { 
+						dataFactory.baseAllegatiDelete('trasparenza', vm.record._id, item.id)
+							.then(					
+								function (data) { 
+									vm.record.allegati.splice(index, 1);
+									toastr.success('deleted');
+								}
+						);
+					});
+			
+		}
+		
+		function allegatoPreview(item) {
+			$window.open(webconfig.download  + '/' + item.id,"_blank");
+		}		
 		
 	}	
 })();

@@ -30,6 +30,7 @@
 		vm.select = select;
 		vm.switchView = switchView;
 		
+		// Gestione allegati
 		vm.sendFile = sendFile;
 		
 		vm.allegatoEdit = allegatoEdit;
@@ -154,6 +155,9 @@
 				.then(
 					function (data) { 
 						toastr.success('file uploaded');
+						if(!vm.record.allegati) {
+							vm.record.allegati = [];
+						}
 						vm.record.allegati.push(data.data);
 						vm.file = '';
 					},
