@@ -3,10 +3,8 @@
 
   var app = angular.module('app');
 	
-	app.factory('dataFactory', function($http) {
-		//var urlBase = 'http://api.network-giovani.net/api/v1';
-		//var urlBase = 'http://127.0.0.1:3000/api/v1';
-		var urlBase = 'http://127.0.0.1:3000/api/v1';
+	app.factory('dataFactory', function(webconfig, $http) {
+		var urlBase = webconfig.api;
 		var _Factory = {};
 
 		// --- ACCOUNT -----

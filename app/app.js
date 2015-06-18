@@ -11,7 +11,8 @@
         // 3rd Party Modules
         'ui.bootstrap',      // ui-bootstrap (ex: carousel, pagination, dialog)
 				'toastr',
-				'textAngular'
+				'textAngular',
+				'webconfig'
     ]);
 
     //app.constant('_', _);     // Lodash library

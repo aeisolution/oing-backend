@@ -2,8 +2,6 @@
   'use strict';
 
   var app = angular.module('app');
-	//var urlBase = 'http://api.network-giovani.net';
-	var urlBase = 'http://127.0.0.1:3000';
 	
 	app.factory('AuthenticationFactory', function($window) {
 		var auth = {
@@ -23,10 +21,10 @@
 		return auth;
 	});
 
-	app.factory('UserAuthFactory', function($window, $location, $http, AuthenticationFactory) {
+	app.factory('UserAuthFactory', function(webconfig, $window, $location, $http, AuthenticationFactory) {
 		return {
 			login: function(username, password) {
-				return $http.post(urlBase +'/login', {
+				return $http.post(webconfig.host +'/login', {
 					username: username,
 					password: password
 				});

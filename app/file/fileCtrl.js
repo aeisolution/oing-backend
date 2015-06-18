@@ -1,14 +1,11 @@
 (function () {
 	'use strict';
 	var controllerId = 'fileCtrl';
-	angular.module('app').controller(controllerId, ['dataFactory', '$window', '$modal', 'toastr', fileCtrl]);
+	angular.module('app').controller(controllerId, ['webconfig', 'dataFactory', '$window', '$modal', 'toastr', fileCtrl]);
 
-	function fileCtrl(dataFactory, $window, $modal, toastr) {
+	function fileCtrl(webconfig, dataFactory, $window, $modal, toastr) {
 		var vm = this;
 
-		var urlBase = 'http://127.0.0.1:3000/download/';
-		
-		
 		vm.title = 'Repository Files';
 		vm.view = 'elenco';
 		vm.elenco = [];
@@ -133,7 +130,7 @@
 		}
 
 		function preview(item) {
-			$window.open(urlBase  + item._id,"_blank");
+			$window.open(webconfig.download + '/'  + item._id,"_blank");
 		}
 
 		

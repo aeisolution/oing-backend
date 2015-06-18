@@ -3,12 +3,12 @@
 (function () {
 	'use strict';
 	var controllerId = 'newsCtrl';
-	angular.module('app').controller(controllerId, ['dataFactory', '$window', '$scope', '$filter', '$modal', 'toastr', newsCtrl]);
+	angular.module('app').controller(controllerId, ['webconfig', 'dataFactory', '$window', '$scope', '$filter', '$modal', 'toastr', newsCtrl]);
 
-	function newsCtrl(dataFactory, $window, $scope, $filter, $modal, toastr) {
+	function newsCtrl(webconfig, dataFactory, $window, $scope, $filter, $modal, toastr) {
 		var vm = this;
 		
-		var urlBase = 'http://127.0.0.1:3000/download/';
+		var urlBase = webconfig.download;
 		
 		vm.title = 'News';
 		vm.view = 'elenco';
@@ -214,7 +214,7 @@
 		}
 		
 		function allegatoPreview(item) {
-			$window.open(urlBase  + item.id,"_blank");
+			$window.open(urlBase  + '/' + item.id,"_blank");
 		}
 		
 		

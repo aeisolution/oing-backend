@@ -1,12 +1,11 @@
 (function () {
 	'use strict';
 	var controllerId = 'fatturaCtrl';
-	angular.module('app').controller(controllerId, ['dataFactory', '$window', '$modal', 'toastr', fatturaCtrl]);
+	angular.module('app').controller(controllerId, ['webconfig','dataFactory', '$window', '$modal', 'toastr', fatturaCtrl]);
 
-	function fatturaCtrl(dataFactory, $window, $modal, toastr) {		
+	function fatturaCtrl(webconfig, dataFactory, $window, $modal, toastr) {		
 		var vm = this;
 		
-		var urlBase = 'http://127.0.0.1:3000';
 		
 		vm.title = 'Repository Fatture Elettroniche';
 		vm.view = 'elenco';
@@ -111,7 +110,7 @@
 		}
 		
 		function preview(item) {
-			$window.open(urlBase + '/fattura/' + item._id + "/preview","_blank");
+			$window.open(webconfig.download + '/fattura/' + item._id + "/preview","_blank");
 		}
 		
 		//-----------------
