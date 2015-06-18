@@ -46,6 +46,7 @@
 													<td>{{ file.type }}</td>
 													<td>
 														<div ng-if="!file.edit">
+															<button ng-click="vm.preview(file)" class="btn btn-default btn-sm"><i class="fa fa-print"></i></button> 
 															<button ng-click="vm.edit(file)" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></button> 
 															<button ng-click="vm.delete(file)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
 														</div>

@@ -73,7 +73,7 @@
 		}
 		
 		function deleteConfirm(item) {
-			var strConfirm = 'Fattura ' + item.titolo;
+			var strConfirm = 'Fattura ' + item.oggetto;
 			
 			var modalInstance = $modal.open({
 				templateUrl: 'app/common/modalConfirm.html',
@@ -94,10 +94,7 @@
 		}
 		
 		function save(item) {
-			/*
-			if(!item._id) postRecord(item);
-			else putRecord(item);
-			*/
+			if(item._id) putRecord(item);
 		}
 		
 		function edit(item) {

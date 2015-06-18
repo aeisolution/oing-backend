@@ -25,8 +25,8 @@
 								<table class="table table-bordered table-hover table-striped">
 										<thead>
 												<tr>
-														<th>Titolo</th>
-														<th>Descrizione</th>
+														<th>Oggetto</th>
+														<th>Fornitore</th>
 														<th>Data</th>
 														<th>Azioni</th>
 												</tr>
@@ -35,16 +35,15 @@
 												<tr ng-repeat="file in vm.elenco | orderBy: 'filename'">
 													<!-- edit columns -->
 													<td ng-if="file.edit">
-														<input ng-model="file.titolo" class="form-control">
+														<input ng-model="file.oggetto" class="form-control">
 													</td>
 													<td ng-if="file.edit">
-														<input ng-model="file.descrizione" class="form-control">
+														<input ng-model="file.mittente" class="form-control">
 													</td>
 													<!-- view columns -->
-													<td ng-if="!file.edit">{{ file.titolo }}</td>
-													<td ng-if="!file.edit">{{ file.descrizione }}</td>
-													<td>{{ file.filename }}</td>
-													<td>{{ file.type }}</td>
+													<td ng-if="!file.edit">{{ file.oggetto }}</td>
+													<td ng-if="!file.edit">{{ file.mittente }}</td>
+													<td>{{ file.dtInsert | date: 'dd-MM-yyyy' }}</td>
 													<td>
 														<div ng-if="!file.edit">
 															<button ng-click="vm.preview(file)" class="btn btn-default btn-sm"><i class="fa fa-print"></i></button> 
@@ -52,8 +51,8 @@
 															<button ng-click="vm.delete(file)" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button> 
 														</div>
 														<div ng-if="file.edit">
-															<button ng-click="vm.save(file)" class="btn btn-success btn-sm"><i class="fa fa-floppy-o"></i> salva</button> 
-															<button ng-click="vm.cancel(file)" class="btn btn-default btn-sm"><i class="fa fa-undo"></i> annulla</button> 
+															<button ng-click="vm.save(file)" class="btn btn-success btn-sm"><i class="fa fa-floppy-o"></i></button> 
+															<button ng-click="vm.cancel(file)" class="btn btn-default btn-sm"><i class="fa fa-undo"></i></button> 
 														</div>
 													</td>
 												</tr>
