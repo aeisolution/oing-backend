@@ -93,7 +93,19 @@
 		}
 
 		function getPageFilter() {
-			var filter = { cognome: vm.filter };
+			var filter = "";
+			if(vm.filter.cognome) {
+				filter += "cognome=" + vm.filter.cognome + "&";
+			}
+
+			if(vm.filter.nome) {
+				filter += "nome=" + vm.filter.nome + "&";
+			}
+
+			if(vm.filter.sezione) {
+				filter += "sezione=" + vm.filter.sezione + "&";
+			}
+			console.log(filter);
 			
 			dataFactory.baseGetPageFilter('albo', vm.page, filter).then(function (data) {
 				vm.elenco = data.data.list;

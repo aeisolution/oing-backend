@@ -150,7 +150,7 @@
 		//*************************************************
 		_Factory.baseGetPageFilter = function(entity, page, filter) {
 			var p = page || '1';
-			return $http.post(urlBase + '/' + entity +  '/filter/page/' + p, filter);
+			return $http.get(urlBase + '/' + entity +  '/page/' + p + '?' + filter);
 		};
 
 		_Factory.baseGetPage = function(entity, page) {

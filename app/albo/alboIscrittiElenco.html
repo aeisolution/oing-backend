@@ -14,8 +14,20 @@
 					<form role="form" class="form-inline">
 						<div class="form-group">
 							<label>Cognome</label>
-							<input ng-model="vm.filter" class="form-control">
+							<input ng-model="vm.filter.cognome" class="form-control">
 						</div>
+						<div class="form-group">
+							<label>Nome</label>
+							<input ng-model="vm.filter.nome" class="form-control">
+						</div>
+						<div class="form-group">
+							<label>Sezione</label>
+							<select ng-model="vm.filter.sezione" class="form-control">
+								<option value="">-- seleziona --</option>
+								<option value="A">A</option>
+								<option value="B">B</option>
+							</select>							
+						</div>						
 						<button type="submit" ng-click="vm.refresh()" class="btn btn-default">cerca</button>
 					</form>
 				</div>
