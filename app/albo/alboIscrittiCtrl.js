@@ -105,7 +105,7 @@
 			if(vm.filter.sezione) {
 				filter += "sezione=" + vm.filter.sezione + "&";
 			}
-			console.log(filter);
+
 			
 			dataFactory.baseGetPageFilter('albo', vm.page, filter).then(function (data) {
 				vm.elenco = data.data.list;
