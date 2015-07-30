@@ -29,7 +29,15 @@
 		// **********************************************
 		// Metodi
 		function getPageFilter() {
-			var filter = { cognome: vm.filter };
+			var filter = "";
+			if(vm.filter.cognome) {
+				filter += "cognome=" + vm.filter.cognome + "&";
+			}
+
+			if(vm.filter.sezione) {
+				filter += "sezione=" + vm.filter.sezione + "&";
+			}
+
 			
 			dataFactory.baseGetPageFilter('albo', vm.page, filter).then(function (data) {
 				vm.elenco = data.data.list;
