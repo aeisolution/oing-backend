@@ -22,15 +22,21 @@
 						requiredLogin: true
 					}
 				// Archivi *****************************************			
-				}).when('/pagine', {
-					templateUrl: '/app/pagina/paginaMain.html',
-					controller: 'paginaCtrl as vm',
+				}).when('/moduli', {
+					templateUrl: '/app/modulo/moduloMain.html',
+					controller: 'moduloCtrl as vm',
 					access: {
 						requiredLogin: true
 					}				
 				}).when('/news', {
 					templateUrl: '/app/news/newsMain.html',
 					controller: 'newsCtrl as vm',
+					access: {
+						requiredLogin: true
+					}				
+				}).when('/pagine', {
+					templateUrl: '/app/pagina/paginaMain.html',
+					controller: 'paginaCtrl as vm',
 					access: {
 						requiredLogin: true
 					}				
