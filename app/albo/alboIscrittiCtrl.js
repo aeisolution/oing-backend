@@ -382,7 +382,7 @@
 			modalInstance.result
 				.then(
 					function () { 
-						dataFactory.alboLaureaDelete(vm.record._id, item.classe)
+						dataFactory.alboLaureaDelete(vm.record._id, item._id)
 							.then(function (data) {
 							vm.record.lauree.splice(index, 1);
 						});
@@ -427,7 +427,7 @@
 			modalInstance.result
 				.then(
 					function () { 
-						dataFactory.alboAbilitazioneDelete(vm.record._id, item.anno)
+						dataFactory.alboAbilitazioneDelete(vm.record._id, item._id)
 							.then(function (data) {
 							vm.record.abilitazioni.splice(index, 1);
 						});
