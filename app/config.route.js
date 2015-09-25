@@ -46,6 +46,12 @@
 					access: {
 						requiredLogin: true
 					}				
+				}).when('/eventi', {
+					templateUrl: '/app/evento/eventoMain.html',
+					controller: 'eventoCtrl as vm',
+					access: {
+						requiredLogin: true
+					}				
 				// Ordine *****************************************
 				}).when('/ordine/commissioni', {
 					templateUrl: '/app/commissione/commissioneMain.html',
