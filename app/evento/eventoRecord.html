@@ -1,6 +1,6 @@
 <div class="panel panel-default">
 		<div class="panel-heading">
-				<i class="fa fa-bar-chart-o fa-fw"></i>{{ vm.record.dtInsert | date: 'dd-MM-yyyy' }} <b>{{ vm.record.titolo }}</b>
+				<i class="fa fa-bar-chart-o fa-fw"></i><b>{{ vm.record._id }}</b> {{ vm.record.titolo }}
 				<div class="pull-right">
 						<div class="btn-group">
 							<button class="btn btn-default btn-xs" ng-click="vm.switchView('elenco')">elenco</button>
@@ -63,6 +63,88 @@
 								</form>
 
 							</tab>
+							<tab>
+								<tab-heading>
+									<i class="fa fa-users"></i> Elenco Iscritti <span class="badge" ng-if="vm.record.iscritti.length>0">{{ vm.record.iscritti.length }}</span>
+								</tab-heading>
+								<hr class="clearfix" />
+
+									<div class="container">
+										<form role="form" class="form-inline">
+											<div class="form-group">
+												<label>Ricerca</label>
+												<input ng-model="vm.filter" class="form-control">
+											</div>
+										</form>
+									</div>
+								<hr class="clearfix" />
+								<div class="table-responsive col-xs-12">
+											<table class="table table-bordered table-hover table-striped">
+													<thead>
+															<tr>
+																	<th>#</th>
+																	<th>Nominativo</th>
+																	<th>Cod Fisc</th>
+																	<th>Albo</th>
+																	<th>tel/cell</th>
+																	<th>mail</th>
+															</tr>
+													</thead>
+													<tbody>
+															<tr ng-repeat="ing in vm.record.iscritti | filter: vm.filter | orderBy: 'prot'">
+																<td>{{ ing.prot }}</td>
+																<td>{{ ing.cognome }} {{ ing.nome }}</td>
+																<td>{{ ing.codiceFiscale }}</td>
+																<td>{{ ing.numero }}/{{ ing.sezione }} {{ ing.ordine }}</td>
+																<td>{{ ing.telefono }}</td>
+																<td>{{ ing.mail }}</td>
+															</tr>
+													</tbody>
+											</table>
+
+								</div>
+							</tab>
+						<tab>
+								<tab-heading>
+									<i class="fa fa-users"></i> Lista per Replica <span class="badge" ng-if="vm.record.replica.length>0">{{ vm.record.replica.length }}</span>
+								</tab-heading>
+								<hr class="clearfix" />
+
+									<div class="container">
+										<form role="form" class="form-inline">
+											<div class="form-group">
+												<label>Ricerca</label>
+												<input ng-model="vm.filterReplica" class="form-control">
+											</div>
+										</form>
+									</div>
+								<hr class="clearfix" />
+								<div class="table-responsive col-xs-12">
+											<table class="table table-bordered table-hover table-striped">
+													<thead>
+															<tr>
+																	<th>#</th>
+																	<th>Nominativo</th>
+																	<th>Cod Fisc</th>
+																	<th>Albo</th>
+																	<th>tel/cell</th>
+																	<th>mail</th>
+															</tr>
+													</thead>
+													<tbody>
+															<tr ng-repeat="ing in vm.record.replica | filter: vm.filterReplica | orderBy: 'prot'">
+																<td>{{ ing.prot }}</td>
+																<td>{{ ing.cognome }} {{ ing.nome }}</td>
+																<td>{{ ing.codiceFiscale }}</td>
+																<td>{{ ing.numero }}/{{ ing.sezione }} {{ ing.ordine }}</td>
+																<td>{{ ing.telefono }}</td>
+																<td>{{ ing.mail }}</td>
+															</tr>
+													</tbody>
+											</table>
+
+								</div>
+							</tab>							
 						</tabset>
 
 				</div>
